@@ -1,0 +1,44 @@
+---
+name: natural-japanese
+metadata:
+  opencode/autoinvoke: false
+description: 一般的な業務文書、議事録、メール、ブログ、エッセイについて、自然な日本語への作成・リライト・診断・採点を明示的に依頼されたときに使用する。通常の開発報告や短いチャットへ自動適用しない。技術文書の論証・構成・Markdown表記は japanese-tech-writing-review を使用する。
+license: MIT
+---
+
+# natural-japanese
+
+一般・業務文書を自然で読みやすい日本語に整える。短いチャット回答や作業報告は通常の会話・報告規則で書き、このSkillを起動しない。
+
+ユーザーが明示したwrite、リライト、score、文体調整だけを扱う。通常の開発作業、README更新、Issue作成、完了報告へlint、独立review、収束工程を自動で追加しない。明示されたquick/full、score、特定の品質工程は以下の契約どおり実行する。
+
+技術文書でも、文章の自然さだけを直す依頼にはこのSkillを使う。論証、章構成、Markdown表記を扱う場合は `japanese-tech-writing-review` を使う。両方が必要なら担当を分け、同じ観点を二重にレビューしない。
+
+## workflowを選ぶ
+
+依頼を次のどちらかへ分け、選んだ参照だけを読む。
+
+- **write**: 新規作成、リライト、自然さ・読みやすさの改善、文体プロファイル作成。最初に [references/write.md](references/write.md) を読む。
+- **score**: AIっぽさや自然さの診断・採点。最初に [references/diagnose.md](references/diagnose.md) を読み、文書は変更しない。診断後にリライトを提案してよいが、依頼されるまで実行しない。
+
+`@natural-japanese [quick|full] <対象>` はwriteまたはリライト、`@natural-japanese write [quick|full] <対象>` は新規作成、`@natural-japanese score [quick|full|exp] <ファイル>` は診断として扱う。自然言語の依頼も同じ基準で分ける。
+
+## writeのmodeを選ぶ
+
+**quickを既定**にする。対象文書の種類に対応するdoctypeがあれば一つだけ読み、lint、スケルトン通読、最終通読まで行う。対象文書では、短くてもlintを省略しない。
+
+**full**は、次のいずれかに該当するときに選ぶ。
+
+- ユーザーが `full` または同等の品質工程を明示する。
+- 対外公開、経営判断、規制・契約上の利用など、誤りの具体的な失敗コストが高い。
+- 構造、読みやすさ、doctype適合など、複数の独立した品質観点による検証が成果物に必要である。
+
+「ちゃんと」「しっかり」「結論から」などの強調語や文字数だけを根拠にfullを選ばない。長さは、独立した検証観点が必要かを判断する材料の一つとして扱う。
+
+fullではlintに加え、構造の機械的確認と必要に応じた用語確認、成果物に必要な独立review、判断台帳、収束確認を行う。reviewer数を固定せず、発見すべき欠陥と独立性が必要な観点から決める。明示されたfullや特定の品質工程は、実行途中の都合で省略しない。
+
+## 完了条件
+
+- writeは、選択したmodeの検査を行い、findingを「直す」「根拠をもって残す」に仕分け、修正による新しいfindingがなく、最終通読を終えている。
+- scoreは、`references/diagnose.md` の算式と出力契約に従い、元文書を変更していない。
+- 作業中のlint出力、判断台帳、下書きなどを成果物と同じ場所へ残さない。ユーザーが明示した成果物だけを残す。

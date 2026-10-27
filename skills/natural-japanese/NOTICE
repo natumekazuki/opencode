@@ -1,0 +1,11 @@
+natural-japanese
+
+Source: https://github.com/coji/natural-japanese
+Upstream path: skills/natural-japanese
+Revision: 0f1cc1c5a4e2aa7590598c88a15c213a60d9545a
+License: MIT (see LICENSE)
+
+OpenCode adaptations: removes the argument-hint frontmatter entry,
+routes technical-document structure and Markdown formatting to japanese-tech-writing-review,
+provides a concise write/score router with local write and score workflow adjustments,
+and preserves explicit-only invocation through metadata.opencode/autoinvoke.

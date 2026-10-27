@@ -1,1 +1,15 @@
 service.json
+opencode.json
+opencode.jsonc
+auth.json
+.env
+.env.*
+!.env.example
+*.log
+*.db
+*.db-shm
+*.db-wal
+node_modules/
+__pycache__/
+*.py[cod]
+skills/withmate-glossary/
