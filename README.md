@@ -53,7 +53,7 @@ tool許可は、依頼のread-only境界や外部write・破壊的操作・push�
 
 | 用途 | 必要環境 |
 | --- | --- |
-| Session Graph helper | Python 3.10以降 |
+| Session Graph | WithMateからSessionへ提供されるSession-bound MCP |
 | test抽出 | Python 3.11以降、Git |
 | TypeScript抽出 | Node.jsとnpm、同梱lockfileの依存 |
 | C#抽出 | .NET 8 runtimeと対応SDK、locked restore |
@@ -71,6 +71,8 @@ SkillはV2のnative discoveryと `skill` toolを使う。AGENTSは標準のinstr
 
 ## WithMate
 
+Session GraphはWithMateから現在のSessionへ提供されるMCPを使用する。操作名・引数・schema・bindingはそのSessionのruntime提供を正本とし、接続値を実config・設定例へ固定しない。必要なMCPが提供されたSessionで利用し、Skillの配置・静的確認と実接続・読書きの確認を区別する。
+
 CLI・Desktopの直接利用とWithMate経由を残す。WithMate対応providerはnative global/project設定を維持し、Character・SessionFolder・Additional Directories等をturn promptへ渡す。Character本文やSession固有値はこのrepositoryへ固定しない。
 
 managed HTTP MCPの `withmate-memory` と `withmate-glossary` はhostがturnごとに供給する接続を使う。URL・短命tokenを実config・設定例へ登録しない。WithMateのSkill同期先にはnative discovery対象の `~/.config/opencode/skills` を指定する。managed `withmate-glossary` はWithMateが配布するため、このrepositoryでは追跡・同名forkしない。
@@ -79,10 +81,11 @@ managed HTTP MCPの `withmate-memory` と `withmate-glossary` はhostがturnご�
 
 ## 保守と検証
 
+Session Graphの正本・Main/Auxiliary間の共有・表示はWithMateが担い、記録・復元の判断は[Session Graph Skill](skills/session-graph/SKILL.md)、呼出契約はruntimeのMCP instructions・tool説明・schemaに従う。定義変更時は入口・Skill・関連guideの整合と、必要な範囲で指示の先行記録、対象を絞った復元、全体置換時の情報保持、競合・結果不明時の再取得を確認する。配布元編集、live配置、Skill発見、MCP読書き、画面表示の確認を区別し、未実施を成功扱いしない。独自の保存・描画基盤や恒久testは追加しない。
+
 変更範囲に応じて、設定読込・agent/model/permission・Skill発見と参照、scriptの既存testを確認する。モデルAPIを使わない読込確認と実際のmodel応答・子起動・承認dialog・WithMate接続を分けて報告する。
 
 ```powershell
-python -X utf8 -m unittest discover -s skills/session-graph/scripts -p "test_*.py"
 python -X utf8 -m unittest discover -s skills/review-test-value/scripts -p "test_*.py"
 ```
 
@@ -94,7 +97,7 @@ Python/TypeScript/C#の変更testは固定task baseから抽出し、全record�
 
 通常の統合先は `master`。正式版を公開する場合は `vMAJOR.MINOR.PATCH` tag・GitHub Release・`docs/releases/vMAJOR.MINOR.PATCH.md` で対象と確認範囲を示す。task branchのcommitは統合・公開ではない。
 
-維持対象は利用者が使うSkill名・配置入口、各Skillの現行referenceが定める抽出CLI/result/metadata/source adapter/Git選択と、Session Graphの保存・競合・cleanup契約とする。実設定・認証・Memory・既存共有記録等の利用者データはtagの有無にかかわらず保護する。外部modelの提供・費用・品質やWithMate本体は本repositoryの保証に含めない。
+維持対象は利用者が使うSkill名・配置入口、各Skillの現行referenceが定める抽出CLI/result/metadata/source adapter/Git選択と、Session Graph SkillのMCP利用方針とする。Session Graphの操作・schema・競合制御はruntimeが提供するMCP契約を正本とする。実設定・認証・Memory・既存共有記録等の利用者データはtagの有無にかかわらず保護する。外部modelの提供・費用・品質やWithMate本体は本repositoryの保証に含めない。
 
 内部実装・指示の表現・初期model配分・文書構成そのものは固定しない。維持契約を壊す変更はmajor、互換機能追加はminor、互換修正はpatchとする。tagのない開発途中の実装全体との互換性は保証しないが、データ保護と承認境界は維持する。
 
