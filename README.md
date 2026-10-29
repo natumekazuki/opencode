@@ -49,7 +49,7 @@ tool許可は、依頼のread-only境界や外部write・破壊的操作・push�
 
 ## Skillと実行環境
 
-同梱は `session-graph`、`review-test-value`、`design-ui-information`、`relaygraph`、`japanese-tech-writing-review`、`natural-japanese`。日本語文書の2 Skillは既存の明示起動方針を `metadata.opencode/autoinvoke: false` で維持する。Codex専用UI metadata・監査・第三者plugin・外部managed Skillはコピーしない。
+同梱は `session-graph`、`review-test-value`、`design-ui-information`、`relaygraph`、`japanese-tech-writing-review`、`natural-japanese`。日本語文書の2 Skillは既存の明示起動方針を `metadata.opencode/autoinvoke: false` で維持する。
 
 | 用途 | 必要環境 |
 | --- | --- |
@@ -67,7 +67,7 @@ npm ci --prefix $adapterPath
 if ($LASTEXITCODE -ne 0) { throw 'TypeScript adapter dependency installation failed' }
 ```
 
-SkillはV2のnative discoveryと `skill` toolを使う。AGENTSは標準のinstruction読込を使い、Codex hookやV1 pluginを移植しない。開始・再開・compact後はsession-graphの条件で記録を復元し、子には必要なcontextを明示する。[公式instructions](https://opencode.ai/v2/docs/instructions/) / [skills](https://opencode.ai/v2/docs/skills/)
+SkillはV2のnative discoveryと `skill` toolを使う。AGENTSは標準のinstruction読込を使う。開始・再開・compact後はsession-graphの条件で記録を復元し、子には必要なcontextを明示する。[公式instructions](https://opencode.ai/v2/docs/instructions/) / [skills](https://opencode.ai/v2/docs/skills/)
 
 ## WithMate
 
@@ -93,7 +93,7 @@ Python/TypeScript/C#の変更testは固定task baseから抽出し、全record�
 
 ## 課題管理とリリース
 
-本repositoryの不具合・機能要求・後追い残件は[natumekazuki/opencodeのGitHub Issues](https://github.com/natumekazuki/opencode/issues)を正本とする。対応version未指定はバックログとし、Milestoneは使用しない。Issueへの外部writeが未承認なら未登録であることを報告し、SessionFolderのreview記録を登録済みと扱わない。
+本repositoryの不具合・機能要求・後追い残件は[natumekazuki/opencodeのGitHub Issues](https://github.com/natumekazuki/opencode/issues)を正本とする。各課題の対応予定はIssueで扱い、対応version未指定はバックログとする。Issueへの外部writeが未承認なら未登録であることを報告し、SessionFolderのreview記録を登録済みと扱わない。
 
 通常の統合先は `master`。正式版を公開する場合は `vMAJOR.MINOR.PATCH` tag・GitHub Release・`docs/releases/vMAJOR.MINOR.PATCH.md` で対象と確認範囲を示す。task branchのcommitは統合・公開ではない。
 
