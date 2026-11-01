@@ -1,6 +1,6 @@
 # OpenCode 個人設定
 
-OpenCode V2の規約・Skill・agent・設定例を管理する。配置先は `~/.config/opencode/`。Codexを共通方針の基本の正本とし、このrepository単独で利用できる内容に適応する。
+OpenCode V2の規約・Skill・agent・設定例を管理する。配置先は `~/.config/opencode/`。Codexを共通方針の基本の正本とし、このrepository単独で利用できる内容に適応する。共通ルールは責務に基づく既存実装の削減と過剰追加の抑制を含み、ユーザー変更の保護、操作範囲、承認条件、必要な安全動作は維持する。
 
 ## 配置と導入
 
@@ -80,6 +80,15 @@ managed HTTP MCPの `withmate-memory` と `withmate-glossary` はhostがturnご�
 接続・障害調査は[Memory／Character](docs/runbooks/withmate-character-context.md)と[Glossary](docs/runbooks/withmate-repository-glossary.md)、利用判断と継続許可は[WithMate利用方針](docs/guides/withmate.md)を参照する。WithMate本体のOpenCode対応版が必要で、native configの読込成功だけではhostのSession-bound MCPやMemory/Affectの実動作を保証しない。接続確認だけのための書込みや、独自Memory storeへのfallbackは行わない。
 
 ## 保守と検証
+
+削減方針を変更した時は、[設計判断](docs/guides/design-decisions.md)・[開発](docs/guides/development.md)・[変更test](docs/guides/test-changes.md)と入口の整合に加え、次の判断を確認する。
+
+| 条件 | 確認する行動 |
+| --- | --- |
+| 不要なrevision取得・事前チェックに、内部の利用側・専用test・DB管理状態が依存する | 機構と付随物を一緒に除いた場合の責務への支障を調べる。内部依存やtestの存在だけで必要とせず、不要と判断できれば許可範囲で一体的に削減する。必要性不明は調査し、恒久的な維持理由にしない |
+| 局所追加でも動くが、関連する複数経路の統合で継続負担を減らせる／無関係な別機能にも冗長処理がある | 前者は変更・移行・検証費用も含めて比較し、差分の小ささだけで却下しない。後者を無断で改修範囲へ混ぜない。全段階の試作や全repository監査は要求しない |
+| 合意済みの維持期間・展開計画がある／将来使うかもしれないだけの仕組みがある | 前者は時間軸を含めて負担を比較するが先行実装の許可とはしない。後者を追加・温存の根拠にしない。必要でない保証・操作制限の導入は目的・支障・負担を示して明示承認を得る |
+| 旧schemaとの互換性は維持不要だが、保持データや適用済みmigrationがある | 構造の簡素化と実データ破棄・適用済みmigration書換えの権限を分け、互換不要の合意を破壊的操作の許可へ広げない |
 
 Session Graphは現在のMain Sessionと配下Auxiliaryの共有記録であり、保存・共有・表示はWithMateが担う。[Session Graph Skill](skills/session-graph/SKILL.md)は、現在のSessionへ提供されたMCPで何を読み、何をいつ記録するかを定める。呼出契約はruntimeのMCP instructions・tool説明・schemaに従う。
 
