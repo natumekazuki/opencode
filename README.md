@@ -2,8 +2,6 @@
 
 OpenCode V2の規約・Skill・agent・設定例を管理する。配置先は `~/.config/opencode/`。Codexを共通方針の基本の正本とし、このrepository単独で利用できる内容に適応する。共通ルールは責務に基づく既存実装の削減と過剰追加の抑制を含み、ユーザー変更の保護、操作範囲、承認条件、必要な安全動作は維持する。
 
-通常の作業・会話はWithMateを標準環境とする。機能ごとの利用契機と、接続失敗・情報欠落時の扱いは共通入口に従う。
-
 ## 配置と導入
 
 | 配置 | 責務 |
@@ -79,11 +77,11 @@ WithMate対応providerはnative global/project設定を維持し、Character・S
 
 managed HTTP MCPの `withmate-memory` と `withmate-glossary` はhostがturnごとに供給する接続を使う。URL・短命tokenを実config・設定例へ登録しない。WithMateのSkill同期先にはnative discovery対象の `~/.config/opencode/skills` を指定する。managed `withmate-glossary` はWithMateが配布するため、このrepositoryでは追跡・同名forkしない。
 
-接続・障害調査は[Memory／Character](docs/runbooks/withmate-character-context.md)と[Glossary](docs/runbooks/withmate-repository-glossary.md)、利用判断と継続許可は[WithMate利用方針](docs/guides/withmate.md)を参照する。WithMate本体のOpenCode対応版が必要で、native configの読込成功だけではhostのSession-bound MCPやMemory/Affectの実動作を保証しない。接続確認だけのための書込みや、独自Memory storeへのfallbackは行わない。
+接続・障害調査は[Memory／Character](docs/runbooks/withmate-character-context.md)と[Glossary](docs/runbooks/withmate-repository-glossary.md)、利用判断と継続許可は[Memory・Affect・共有情報の利用](docs/guides/withmate.md)を参照する。WithMate本体のOpenCode対応版が必要で、native configの読込成功だけではhostのSession-bound MCPやMemory/Affectの実動作を保証しない。接続確認だけのための書込みや、独自Memory storeへのfallbackは行わない。
 
 ### Memory・Affect方針の検証
 
-通常会話での能動的な読取、背景実行との責務分担、Affectの反映は[WithMate利用方針](docs/guides/withmate.md)、利用可能な操作・引数・scope等は現在のMCP／CLI提供契約を正本とする。[WithMate v6.5の公開仕様](https://github.com/natumekazuki/WithMate/blob/fa065474528a307a5144437d79aa062f6806b888/docs/releases/v6.5.0-preview.0.md)ではMemoryの自動注入を行わず、MemoryとAffectの自動登録は背景実行が担う。方針変更時は入口の読込条件、guide、提供契約を照合する。
+通常会話での能動的な読取、背景実行との責務分担、Affectの反映は[Memory・Affect・共有情報の利用](docs/guides/withmate.md)、利用可能な操作・引数・scope等は現在のMCP／CLI提供契約を正本とする。[WithMate v6.5の公開仕様](https://github.com/natumekazuki/WithMate/blob/fa065474528a307a5144437d79aa062f6806b888/docs/releases/v6.5.0-preview.0.md)ではMemoryの自動注入を行わず、MemoryとAffectの自動登録は背景実行が担う。方針変更時は入口の読込条件、guide、提供契約を照合する。
 
 変更範囲に応じて次の観点を確認する。実Memory・Affectへの架空の経験・情動の書込みや、恒久test基盤の追加は行わない。
 
