@@ -1,6 +1,6 @@
 # WithMate Memory／Character 接続
 
-接続設定・障害調査時に読む。利用判断・記録範囲・継続的な許可は[WithMate利用方針](../guides/withmate.md)、操作名・引数・保存先・再試行は現在のMCP instructions/tool schemaを正本とする。
+接続設定・障害調査時に読む。利用判断・記録範囲・継続的な許可は[Memory・Affect・共有情報の利用](../guides/withmate.md)、操作名・引数・保存先・再試行は現在のMCP instructions/tool schemaを正本とする。
 
 ## managed HTTP
 
@@ -16,7 +16,7 @@ Character Definition・Output Boundary・Workspace・SessionFolder・Additional 
 2. provider/CLI version、起動元、sessionとbindingの対応、設定読込元を確認する。認証値の全文は出力しない。
 3. binding不足・token失効はhost側の供給を確認する。他sessionの値や推測値で補わず、通常CLIからWithMate内部DBへ直接アクセスしない。
 
-接続確認のためにMemory/Affectを作らない。実際の記録が必要な経験は本人が現在のMCP契約で記録し、返却結果と必要なread-backを確認する。turn末の自動処理があると決めつけず、同じrequest/eventを重複登録しない。失敗時は保存済みとせず、独自storeへ逃がさない。
+接続確認のためにMemory/Affectを作らない。通常会話での能動的なMemory読取、背景実行による自動生成、明示依頼による保存は[Memory・Affect・共有情報の利用](../guides/withmate.md)に従う。接続成功だけで保存済みとせず、失敗時も独自storeへ逃がさない。
 
 ## 手動STDIO診断
 

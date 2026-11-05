@@ -71,13 +71,31 @@ SkillはV2のnative discoveryと `skill` toolを使う。AGENTSは標準のinstr
 
 ## WithMate
 
-Session GraphはWithMateから現在のSessionへ提供されるMCPを使用する。操作名・引数・schema・bindingはそのSessionのruntime提供を正本とし、接続値を実config・設定例へ固定しない。必要なMCPが提供されたSessionで利用し、Skillの配置・静的確認と実接続・読書きの確認を区別する。
+Session GraphはWithMateから現在のSessionへ提供されるMCPを使用する。操作名・引数・schema・bindingはそのSessionのruntime提供を正本とし、接続値を実config・設定例へ固定しない。利用契機は共通AGENTS.mdに従い、Skillの配置・静的確認と実接続・読書きの確認を区別する。
 
-CLI・Desktopの直接利用とWithMate経由を残す。WithMate対応providerはnative global/project設定を維持し、Character・SessionFolder・Additional Directories等をturn promptへ渡す。Character本文やSession固有値はこのrepositoryへ固定しない。
+WithMate対応providerはnative global/project設定を維持し、Character・SessionFolder・Additional Directories等をturn promptへ渡す。Character本文やSession固有値はこのrepositoryへ固定しない。
 
 managed HTTP MCPの `withmate-memory` と `withmate-glossary` はhostがturnごとに供給する接続を使う。URL・短命tokenを実config・設定例へ登録しない。WithMateのSkill同期先にはnative discovery対象の `~/.config/opencode/skills` を指定する。managed `withmate-glossary` はWithMateが配布するため、このrepositoryでは追跡・同名forkしない。
 
-接続・障害調査は[Memory／Character](docs/runbooks/withmate-character-context.md)と[Glossary](docs/runbooks/withmate-repository-glossary.md)、利用判断と継続許可は[WithMate利用方針](docs/guides/withmate.md)を参照する。WithMate本体のOpenCode対応版が必要で、native configの読込成功だけではhostのSession-bound MCPやMemory/Affectの実動作を保証しない。接続確認だけのための書込みや、独自Memory storeへのfallbackは行わない。
+接続・障害調査は[Memory／Character](docs/runbooks/withmate-character-context.md)と[Glossary](docs/runbooks/withmate-repository-glossary.md)、利用判断と継続許可は[Memory・Affect・共有情報の利用](docs/guides/withmate.md)を参照する。WithMate本体のOpenCode対応版が必要で、native configの読込成功だけではhostのSession-bound MCPやMemory/Affectの実動作を保証しない。接続確認だけのための書込みや、独自Memory storeへのfallbackは行わない。
+
+### Memory・Affect方針の検証
+
+通常会話での能動的な読取、背景実行との責務分担、Affectの反映は[Memory・Affect・共有情報の利用](docs/guides/withmate.md)、利用可能な操作・引数・scope等は現在のMCP／CLI提供契約を正本とする。[WithMate v6.5の公開仕様](https://github.com/natumekazuki/WithMate/blob/fa065474528a307a5144437d79aa062f6806b888/docs/releases/v6.5.0-preview.0.md)ではMemoryの自動注入を行わず、MemoryとAffectの自動登録は背景実行が担う。方針変更時は入口の読込条件、guide、提供契約を照合する。
+
+変更範囲に応じて次の観点を確認する。実Memory・Affectへの架空の経験・情動の書込みや、恒久test基盤の追加は行わない。
+
+| 条件 | 確認する行動・結果 |
+| --- | --- |
+| 過去の好み・判断・共有経験が会話や作業に関係する | 明示的な想起依頼を待たず、依存する判断・回答の前に検索し、関連entryの本文まで読む |
+| 関連Memoryを探したいが検索語を作れない／検索0件 | 少量のentry・tag一覧を手掛かりにでき、検索0件を記憶全体の不存在と同一視しない |
+| 必要な本文が現在のcontextにある／過去の記憶が関係しない | 既読の本文を再利用し、不要な検索・全件取得を行わない |
+| 読取失敗／previewだけを取得／現在の発言と記憶が矛盾 | 未確認範囲を断定せず、必要な本文を取得し、現在の明示指示と正本を優先する |
+| 通常会話で経験・感情変化が生じる／背景用途が未設定・失敗 | 通常会話から自動保存・appraisal・終了前の保存漏れ確認を行わず、背景側を代行しない |
+| 明示的な保存依頼／許可された訂正・forget・move | runtime契約と承認境界に従い、実行結果を確認する。背景実行の存在だけで保存済みとしない |
+| Affectの対象・強度・活性度が異なる | 口調・反応へ反映し、基本人格・事実・権限を維持する。作業への反応をユーザーの感情・性質へ誤投影しない |
+
+配布元の文言・参照整合、live配置、新規sessionでの読取と応答への利用、明示依頼による書込、背景生成、Affectの反映は分けて確認・報告する。文言の強化だけで行動改善を実証したとは扱わず、未確認の範囲を明記する。結果はSessionFolderのreview記録等へ残し、repositoryの契約・進捗・検証結果をMemoryへ写さない。
 
 ## 保守と検証
 
@@ -96,7 +114,7 @@ Session Graphは現在のMain Sessionと配下Auxiliaryの共有記録であり�
 
 変更範囲に応じて、設定読込・agent/model/permission・Skill発見と参照、scriptの既存testを確認する。モデルAPIを使わない読込確認と実際のmodel応答・子起動・承認dialog・WithMate接続を分けて報告する。
 
-ローカル起動・撮影と画像提示のルール変更時は、入口・[UI基準](docs/guides/ui.md)・UI Skillの整合に加え、対象repositoryの起動・撮影手順、取得画像の確認、返答の画像埋め込みまでを確認する。軽微な変更、SessionFolderの有無、撮影不可、共有不可を必要な範囲で確認し、配布元の静的確認とlive配置・新規sessionでの実動作を分けて報告する。
+ローカル起動・撮影と画像提示のルール変更時は、入口・[UI基準](docs/guides/ui.md)・UI Skillの整合に加え、対象repositoryの起動・撮影手順、取得画像の確認、返答の画像埋め込みまでを確認する。軽微な変更、保存先未取得、撮影不可、共有不可を必要な範囲で確認し、配布元の静的確認とlive配置・新規sessionでの実動作を分けて報告する。
 
 ```powershell
 python -X utf8 -m unittest discover -s skills/review-test-value/scripts -p "test_*.py"
