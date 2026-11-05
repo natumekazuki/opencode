@@ -2,6 +2,8 @@
 
 委譲前に読む。OpenCode V2の `subagent` toolを使い、対象、必要な結果、権限、完了条件と必要な参照先を依頼へ渡す。子はfresh contextで動くため履歴継承を前提にしない。全規約を複製せず、必要な文書を解決済みの実pathで渡す。
 
+委譲時は現在のSessionFolderと、作業に必要なWithMateの共有情報・参照先を渡す。子がtool制限等でMemory・Session Graph・Glossaryを直接利用できない場合は、親が許可範囲内で必要な取得・記録を担い、子へ必要な結果を渡す。WithMateを利用する前提は、子のtool権限やSession bindingを追加・転用する許可ではない。
+
 ## 担当
 
 | agent | 用途 |

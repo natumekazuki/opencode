@@ -2,6 +2,8 @@
 
 OpenCode V2の規約・Skill・agent・設定例を管理する。配置先は `~/.config/opencode/`。Codexを共通方針の基本の正本とし、このrepository単独で利用できる内容に適応する。共通ルールは責務に基づく既存実装の削減と過剰追加の抑制を含み、ユーザー変更の保護、操作範囲、承認条件、必要な安全動作は維持する。
 
+通常の作業・会話はWithMateを標準環境とする。機能ごとの利用契機と、接続失敗・情報欠落時の扱いは共通入口に従う。
+
 ## 配置と導入
 
 | 配置 | 責務 |
@@ -71,9 +73,9 @@ SkillはV2のnative discoveryと `skill` toolを使う。AGENTSは標準のinstr
 
 ## WithMate
 
-Session GraphはWithMateから現在のSessionへ提供されるMCPを使用する。操作名・引数・schema・bindingはそのSessionのruntime提供を正本とし、接続値を実config・設定例へ固定しない。必要なMCPが提供されたSessionで利用し、Skillの配置・静的確認と実接続・読書きの確認を区別する。
+Session GraphはWithMateから現在のSessionへ提供されるMCPを使用する。操作名・引数・schema・bindingはそのSessionのruntime提供を正本とし、接続値を実config・設定例へ固定しない。利用契機は共通AGENTS.mdに従い、Skillの配置・静的確認と実接続・読書きの確認を区別する。
 
-CLI・Desktopの直接利用とWithMate経由を残す。WithMate対応providerはnative global/project設定を維持し、Character・SessionFolder・Additional Directories等をturn promptへ渡す。Character本文やSession固有値はこのrepositoryへ固定しない。
+WithMate対応providerはnative global/project設定を維持し、Character・SessionFolder・Additional Directories等をturn promptへ渡す。Character本文やSession固有値はこのrepositoryへ固定しない。
 
 managed HTTP MCPの `withmate-memory` と `withmate-glossary` はhostがturnごとに供給する接続を使う。URL・短命tokenを実config・設定例へ登録しない。WithMateのSkill同期先にはnative discovery対象の `~/.config/opencode/skills` を指定する。managed `withmate-glossary` はWithMateが配布するため、このrepositoryでは追跡・同名forkしない。
 
@@ -114,7 +116,7 @@ Session Graphは現在のMain Sessionと配下Auxiliaryの共有記録であり�
 
 変更範囲に応じて、設定読込・agent/model/permission・Skill発見と参照、scriptの既存testを確認する。モデルAPIを使わない読込確認と実際のmodel応答・子起動・承認dialog・WithMate接続を分けて報告する。
 
-ローカル起動・撮影と画像提示のルール変更時は、入口・[UI基準](docs/guides/ui.md)・UI Skillの整合に加え、対象repositoryの起動・撮影手順、取得画像の確認、返答の画像埋め込みまでを確認する。軽微な変更、SessionFolderの有無、撮影不可、共有不可を必要な範囲で確認し、配布元の静的確認とlive配置・新規sessionでの実動作を分けて報告する。
+ローカル起動・撮影と画像提示のルール変更時は、入口・[UI基準](docs/guides/ui.md)・UI Skillの整合に加え、対象repositoryの起動・撮影手順、取得画像の確認、返答の画像埋め込みまでを確認する。軽微な変更、保存先未取得、撮影不可、共有不可を必要な範囲で確認し、配布元の静的確認とlive配置・新規sessionでの実動作を分けて報告する。
 
 ```powershell
 python -X utf8 -m unittest discover -s skills/review-test-value/scripts -p "test_*.py"
