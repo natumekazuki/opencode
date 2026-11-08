@@ -8,7 +8,7 @@ WithMateのOpenCode対応providerは、native global/project configを保持し�
 
 `x-withmate-mcp-token` はMain管理の短命token。URL・token・runtime bindingを `opencode.jsonc`、template、logへ固定保存しない。Desktopの既存serviceを停止したり、そのpasswordを流用したりしない。WithMateのOpenCode対応版と、実際のsession bindingが必要である。
 
-Character Definition・Output Boundary・Workspace・SessionFolder・Additional Directories・Affect contextは共通promptで渡される。Characterは自然言語応答にのみ適用し、成果物や設定へ混ぜない。共通AGENTSへ特定Characterのsnapshotを固定しない。
+Character Definition・Output Boundary・Workspace・SessionFolder・Additional Directories・Affect contextは共通promptで渡される。Character表現の適用境界は[WithMate利用guide](../guides/withmate.md#character表現の適用範囲)に従い、応答と非公開の手元の自然文へ適用する。repository内・外部向け成果物は明示指定がない限り既存文体と目的を優先する。共通AGENTSへ特定Characterのsnapshotを固定しない。
 
 ## 確認と障害
 
@@ -17,6 +17,14 @@ Character Definition・Output Boundary・Workspace・SessionFolder・Additional 
 3. binding不足・token失効はhost側の供給を確認する。他sessionの値や推測値で補わず、通常CLIからWithMate内部DBへ直接アクセスしない。
 
 接続確認のためにMemory/Affectを作らない。通常会話での能動的なMemory読取、背景実行による自動生成、明示依頼による保存は[Memory・Affect・共有情報の利用](../guides/withmate.md)に従う。接続成功だけで保存済みとせず、失敗時も独自storeへ逃がさない。
+
+## 背景登録と添付の診断
+
+背景登録の失敗はWithMateの`userData/logs/background-failures.jsonl`で、失敗段階と操作ごとの成否・保存効果を確認する。Agentの正常終了だけで保存成功と判断せず、一括登録の途中保存と結果不明を区別する。Memory本文・会話本文・prompt・tool引数や応答本文・認証情報を追加dumpしない。
+
+背景thread・前回失敗・待機状態はアプリ再起動をまたいで復元されないが、保存済みMemory・Affectは保持される。threadの継続や失敗情報の有無から保存状態を推測しない。
+
+添付の取込元・復元先とローカルwriteの可否は当該呼出しの許可範囲で確認する。復元の拒否をMCP全体の未接続と同一視したり、権限を緩めて迂回したりしない。適用境界は[WithMate利用guide](../guides/withmate.md)に従う。
 
 ## 手動STDIO診断
 
