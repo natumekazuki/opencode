@@ -124,7 +124,7 @@ WithMateに保存済みの背景登録指示は自動更新されない。この
 
 Session Graphは現在のMain Sessionと配下Auxiliaryの共有記録であり、保存・共有・表示はWithMateが担う。[Session Graph Skill](skills/session-graph/SKILL.md)は、現在のSessionへ提供されたMCPで何を読み、何をいつ記録するかを定める。呼出契約はruntimeのMCP instructions・tool説明・schemaに従う。
 
-定義変更時は入口・Skill・関連guideの整合を確認し、変更範囲に応じて指示の先行記録、対象を絞った復元、全体置換時の情報保持、競合・結果不明時の再取得を確認する。配布元編集、live配置、Skill発見、MCP読書き、画面表示の確認を区別し、実施した確認と未確認の範囲を報告する。
+定義変更時は入口・Skill・関連guideの整合を確認し、変更範囲に応じて指示の先行記録、対象を絞った復元、必須本文の更新と任意属性の省略保持・null解除、競合・結果不明時の再取得を確認する。配布元編集、live配置、Skill発見、MCP読書き、画面表示の確認を区別し、実施した確認と未確認の範囲を報告する。
 
 変更範囲に応じて、設定読込・agent/model/permission・Skill発見と参照、scriptの既存testを確認する。モデルAPIを使わない読込確認と実際のmodel応答・子起動・承認dialog・WithMate接続を分けて報告する。
 
