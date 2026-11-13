@@ -1,4 +1,14 @@
-# Subagent Review Boundary
+# 委譲と作業領域
+
+## WithMateの通常子Sessionとnativeサブエージェント
+
+独立した会話・Character・実行設定・担当状態として継続して追う仕事はWithMateの通常子Session、担当内で成果を回収・統合する分業は製品nativeのサブエージェントを基本とする。調査／実装／review、規模、長さ、Modelだけで固定せず、分業が不要なら自分で行う。同じ仕事を両方へ重複委譲しない。
+
+WithMateの子は別の参加者であり、[Session間の協同](../guides/withmate-collaboration.md)でRole・背景確認・Coordination・明示報告・Turn終了と再開を扱う。同じ担当範囲の追加依頼には継続可能な既存Sessionを使う。native子は別のWithMate参加者や独立したCharacter Memory／Affect所有者とはみなさず、製品nativeの通知・返却・待機契約を使う。
+
+どちらも既存の委譲許可、必須専門審査、操作権限とruntime制限に従う。以下のnative用model・tool制限をWithMate全Providerのallowlistへ広げず、WithMateのカタログをnativeの許可拡大にも使わない。選定時は[環境固有の方針](../runbooks/withmate-environment.md)も確認する。
+
+## nativeサブエージェント
 
 委譲前に読む。OpenCode V2の `subagent` toolを使い、対象、必要な結果、権限、完了条件と必要な参照先を依頼へ渡す。子はfresh contextで動くため履歴継承を前提にしない。全規約を複製せず、必要な文書を解決済みの実pathで渡す。
 
@@ -25,3 +35,21 @@ reviewでは主要動作、後続の依存、[開発・review・統合](../guide
 test価値reviewは[review-test-value](../../skills/review-test-value/SKILL.md)の全recordをread-onlyへ渡す。親が必要なtest実行・diff抽出・結果保存を行い、子は許可されたtoolでproduction/fixture/oracleを確認する。read-only子へ一時fileの保存やshell実行を依頼しない。必要な情報がtool制約で取得できなければ、親へ不足を返す。
 
 同じworking treeでは担当fileと生成物の所有を明示し、他者が並行作業中であること、他者の編集を巻き戻さないことを伝える。必要な隔離がある場合だけworktreeを使う。結果は根拠・確認範囲・未解決を親へ返し、専用の管理基盤や結果台帳を新設しない。親は指摘の採否・対応時期・統合判断を行い、必要な結果記録をSessionFolderへ保存する。
+
+## Git worktreeの配置
+
+worktreeやcommit固定は具体的な隔離・再現の必要に応じて使い、全reviewへ一律には要求しない。
+
+Worktree rootは環境ごとの値であり、固定の `C:/user/...` やユーザーhomeへ決め打ちしない。[環境固有ファイル](../runbooks/withmate-environment.md)の指定、今回の明示指定、対象repositoryの既存worktree・配置規約から、当該環境のrootと分類を確認する。今回の明示指定を優先し、異なる候補があって判断できない場合だけ確認する。現在のcwdや技術スタックからroot・分類を推測しない。
+
+新規配置は `<Worktree root>/<分類パス>/<リポジトリ名>/<ブランチ名>`。既存の表記と階層を保ち、分類なしの配置を使うrepositoryでは分類部分を省く。分類もbranch名も複数階層を取り得る。
+
+| 確認済みの条件 | 解決する配置 |
+| --- | --- |
+| rootが `R:/GitWorktree`、WithMateの分類が `Electron`、branchが `feat/issue-938` | `R:/GitWorktree/Electron/WithMate/feat/issue-938` |
+| 同じroot、分類が `.net/MAUI`、repositoryが `ExampleApp`、branchが `fix/example` | `R:/GitWorktree/.net/MAUI/ExampleApp/fix/example` |
+| 同じroot、分類なしの `.claude`、branchが `feat/example` | `R:/GitWorktree/.claude/feat/example` |
+
+親が別worktreeにいても配置基準は変えない。分岐元のbranch・commitは依頼に合わせて別に決め、子のWorkspaceには実際に準備した絶対pathを渡す。初めての配置でroot・分類が既存規約から分からない時に確認し、分類が既知なら繰り返し尋ねない。SessionFolder・Crew Folderを代替のworktree作成先にしない。
+
+新規配置の規則を、既存worktreeの移設・削除や過去資料の掃除の許可に広げない。既存branch・pathとの衝突、未コミット変更、submodule等の移動条件を確認し、他者のworktreeを再利用・上書きしない。

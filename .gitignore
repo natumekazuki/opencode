@@ -13,3 +13,6 @@ node_modules/
 __pycache__/
 *.py[cod]
 skills/withmate-glossary/
+
+# 環境固有のWithMate配置・利用経路・選定方針
+/withmate.local.md
