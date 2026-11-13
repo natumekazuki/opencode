@@ -150,13 +150,13 @@ Python/TypeScript/C#の変更testは固定task baseから抽出し、全record�
 
 実装・review・統合・公開を区別する。必須確認とブロッカー解消、後追いとして採用した残件の登録を満たして統合を判断し、非ブロッカー全件修正は条件にしない。push・masterへのcommit/merge・Issue更新・Release公開は操作/対象/scopeへの明示承認に従う。
 
-## WithMate V7の協同と環境設定
+## WithMate V7の協同と端末方針
 
 Role・入力来歴に応じた親子の依頼、背景確認、Coordination、明示報告、Turn終了／再開は[Session間の協同](docs/guides/withmate-collaboration.md)、nativeとの使い分けとworktree配置は[委譲と作業領域](docs/architecture/subagent-workspace.md)を参照する。通常会話・Character表現・Memory／Affectとfolderの使い分けは[WithMate利用guide](docs/guides/withmate.md)が担う。
 
-[環境設定・選定runbook](docs/runbooks/withmate-environment.md)に従い、環境ごとのWorktree root、利用経路、Model／Depthの選定基準は `~/.config/opencode/withmate.local.md` へ置ける。[withmate.example.md](withmate.example.md)を編集用の例として使う。localファイルはGit管理外であり、3製品間の同期対象にも含めない。既存ファイルを保護し、配布checkoutの編集とhomeへの実配置を分ける。認証・課金設定は変更しない。
+端末の選定基準・契約経路とWorktree配置はWithMateの保存方針を参照する。取得のタイミング、宛先の実カタログ・必要時のquotaとの照合、配置結果の使い分けは[協同ガイド](docs/guides/withmate-collaboration.md#実行条件の選定)に集約する。通常の親Sessionが読む同ガイドは、直接checkoutと手動コピーのどちらでも[配置手順](#配置と導入)の配布対象に含まれる。
 
-カタログはCodex・Claude・OpenCodeの候補を、対象Workspaceの `session.get_catalog` と環境の利用方針から組み立てる。観測した候補一覧を保存する場合はlocal資料として扱い、変動する一覧を共通の固定allowlistにしない。native用roleの選定とWithMate通常子の選定は別である。
+端末固有ファイルや候補表の転記を準備する必要はない。方針が未設定ならその状態を扱い、旧資料から自動登録しない。恒久設定の変更はユーザーの明示指示に限り、通常の依頼・今回限りの選択から保存方針や課金設定を変えない。利用者が保持する実ファイルは自動削除・移行せず、Git除外を維持する。native用roleの選定・制限とWithMate通常子の選定は別である。
 
 変更した規約は代表的な入力で、読込先と判断・次の操作を確認する。新しい恒久test基盤は設けず、生成応答の比較・静的確認・live配置・実際の配送を分けてSessionFolderのreview記録へ残す。
 
@@ -168,9 +168,13 @@ Role・入力来歴に応じた親子の依頼、背景確認、Coordination、�
 | 親がidle／running／相談は起票のみ | 同じ相談を一度配送し、独立作業後にTurnを終了する。親の回答で元の作業を再開し、待ち時間だけで再送・Steer・ユーザー待ちにしない |
 | 最終報告／送信結果不明／送信元Turnがfailed・canceled | 明示報告・保存後配送を使い、元の受付を確認する。受付・保存・作業成功を混同しない |
 | native子／WithMate Worker・個別統括 | 役割・返却・待機を混同せず、必須審査・各製品のtool制限を維持する |
-| Modelの別経路／空Depth／未対応Depth／利用不可 | 完全ID・実候補とローカル方針を照合し、未対応値や別の課金経路へ無断で置換しない |
-| 環境ファイルの有無・競合／異なるroot・複数階層分類 | 明示指定を優先し、既知情報を再質問せず、未知のroot・分類だけ確認する。cwd・SessionFolderを代替先にしない |
+| 新規子／既存子の次Turnの条件再選定／未設定方針 | 保存方針と宛先Provider・Workspaceの実候補を照合する。未設定・取得失敗を区別し、旧資料や推測から登録しない |
+| Modelの別経路／空Depth／未対応Depth／古いquota | 完全IDと対応Depthを使う。利用枠は必要時だけ状態・日時・対象枠を確認し、不明やFree表記を利用許可へ置き換えない |
+| Worktreeのexisting／planned／unconfigured、単発指定、カスタムlayout | 返された配置先と実体を確認する。同branchの既存登録が優先され、未設定なら必要な不足だけ確認する。独自組立てやSessionFolderへの代替をしない |
+| 通常依頼／今回だけのDepth・配置指定 | 保存済み方針を変更せず、その依頼・新規候補に限って扱う |
 | 手元の試行画像・添付・review参照／他Sessionが使う比較資料 | 用途を終えた自身の一時物だけ片付け、共有する資料を選び、参照を壊さない |
+
+配布元では、直接配置と手動コピー先のどちらでも協同ガイドへ到達し、端末固有ファイルなしで選定・配置判断を辿れることを確認する。V7での実利用確認では、新ルールを実配置したOpenCodeの全体統括へ、API名や具体値を指定せず小さな委譲可能な依頼を渡す。親が保存方針・宛先候補・配置先を読み、準備したWorkspaceと実行条件を子へ渡すこと、通常依頼や単発指定で保存方針が変わらないことを観測する。ソース照合やAPI単体の読取を、この実利用確認の成功としない。
 
 ## Codex／Claude／OpenCode間の変更反映
 
