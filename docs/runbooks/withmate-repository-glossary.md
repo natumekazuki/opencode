@@ -1,6 +1,6 @@
 # WithMate Repository Glossary 接続
 
-repository用語の意味確認・登録は[Memory・Affect・共有情報の利用](../guides/withmate.md)とruntime-managed `withmate-glossary` Skillを参照する。本書は接続・配置の診断用であり、tool契約を複製しない。
+repository用語の意味確認・登録は[WithMate利用guide](../guides/withmate.md)とruntime-managed `withmate-glossary` Skillを参照する。本書は接続・配置の診断用であり、tool契約を複製しない。
 
 ## 接続とSkill
 
