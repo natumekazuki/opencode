@@ -2,7 +2,7 @@
 
 ## WithMateの通常子Sessionとnativeサブエージェント
 
-全体統括は対話・統括の時間を確保するため、実作業をWithMateの通常子Worker／個別統括へ委譲する。直接行う最小限の判断・参照等との境界は[協同guide](../guides/withmate-collaboration.md#担当の選択と依頼)に従い、短い独立確認を理由としたnative子への実作業の直接委譲は行わない。Worker内の細かな分担・独立reviewには製品nativeのサブエージェントを使える。その他のRoleの使い分けでは、独立した会話・Character・実行設定・担当状態として継続して追う仕事に通常子、担当内で成果を回収・統合する分業にnativeを基本とし、調査／実装／review、規模、長さ、Modelだけで固定しない。同じ仕事を両方へ重複委譲しない。
+Worker内の細かな分担・独立reviewには製品nativeのサブエージェントを使える。全体統括・個別統括が直接行う最小限の判断・参照等と実作業の境界は[協同guide](../guides/withmate-collaboration.md#担当の選択と依頼)に従い、短い独立確認を理由としたnative子への実作業の直接委譲は行わない。Roleの使い分けでは、独立した会話・Character・実行設定・担当状態として継続して追う仕事に通常子、担当内で成果を回収・統合する分業にnativeを基本とし、調査／実装／review、規模、長さ、Modelだけで固定しない。同じ仕事を両方へ重複委譲しない。
 
 WithMateの子は別の参加者であり、[Session間の協同](../guides/withmate-collaboration.md)でRole・背景確認・Coordination・明示報告・Turn終了と再開を扱う。同じ成果の続き・修正・受入対応には継続可能な既存Sessionを使い、新規との判断も同guideに従う。native子は別のWithMate参加者や独立したCharacter Memory／Affect所有者とはみなさず、製品nativeの通知・返却・待機契約を使う。
 
@@ -30,7 +30,7 @@ model IDと開始値は[README](../../README.md#モデルと権限)と各定義�
 
 ## 依頼と結果
 
-reviewでは主要動作、後続の依存、[開発・review・統合](../guides/development.md)の統合基準、非ブロッカー全件修正を条件にしないことを渡す。共有判断に関わる場合は採用済み方針・適用状況・未合意事項と[設計判断・文書化](../guides/design-decisions.md)も渡す。調査・草案作成の委譲を方針採用や操作権限の拡張と解釈しない。
+reviewでは主要動作、後続の依存、[開発・review・統合](../guides/development.md)の統合基準を渡す。共有判断に関わる場合は採用済み方針・適用状況・未合意事項と[設計判断・文書化](../guides/design-decisions.md)も渡す。調査・草案作成の委譲を方針採用や操作権限の拡張と解釈しない。
 
 test価値reviewは[review-test-value](../../skills/review-test-value/SKILL.md)の全recordをread-onlyへ渡す。親が必要なtest実行・diff抽出・結果保存を行い、子は許可されたtoolでproduction/fixture/oracleを確認する。read-only子へ一時fileの保存やshell実行を依頼しない。必要な情報がtool制約で取得できなければ、親へ不足を返す。
 

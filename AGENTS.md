@@ -22,7 +22,7 @@
 
 | 作業・読むタイミング | 必須参照 |
 | --- | --- |
-| 実装着手、開発の完了条件、課題・予定管理、reviewの開始・結果確認・対応・再開・完了、リリース範囲・統合・公開判断、互換性契約の変更 | `~/.config/opencode/docs/guides/development.md`と対象repositoryのREADMEの関連節またはAGENTS.mdが指定する運用文書。実装前に維持対象と残件の管理先を確認する |
+| 実装着手、開発の完了条件、課題・予定管理、reviewの各段階、リリース範囲・統合・公開判断、互換性契約の変更 | `~/.config/opencode/docs/guides/development.md`と対象repositoryのREADMEの関連節またはAGENTS.mdが指定する運用文書。実装前に維持対象と残件の管理先を確認する |
 | 共有判断の不足・矛盾、共有方針や現行説明の新設・変更・統合、文書更新・履歴保存 | `~/.config/opencode/docs/guides/design-decisions.md`。文書作成依頼を待たず適用する |
 | Python／TypeScript／C#のtestの追加・意味変更・削除・移設 | `~/.config/opencode/docs/guides/test-changes.md`とruntimeのreview-test-value Skill |
 | UI開発環境の整備、UI設計・実装、変更後の確認・報告 | `~/.config/opencode/docs/guides/ui.md`、runtimeのdesign-ui-information Skill、製品のUI規約 |

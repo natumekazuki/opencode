@@ -55,15 +55,15 @@ MemoryとCharacter Affectの自動管理は背景実行が担う。通常会話�
 
 ## Memory登録と保存結果
 
-`memory.append`の`entries`、`character_memory.append_episode`の`episodes`で独立した複数記録を一括登録でき、単件入力も利用できる。一括化を必須にせず、Memory登録件数・Affect候補数に独自の固定上限や件数目標を設けない。本文長・添付件数・quota・Providerや通信の制限は現在のruntime契約に従う。
+Memory登録は独立した複数記録の一括登録も単件も利用できる。一括化を必須にせず、Memory登録件数・Affect候補数に独自の固定上限や件数目標を設けない。
 
 保存は操作の応答と必要なread-backで確認する。一括登録では項目ごとの保存済み・失敗・結果不明・未実行を区別し、途中失敗を全件未保存と解釈して無条件に再送しない。Agentの正常終了、保存依頼や背景実行の存在だけを保存成功の根拠にしない。
 
 ## Memoryの能動的な読取
 
-- 通常会話へ自動注入されるのはCharacter Affect Contextであり、Memoryではない。Affect contextの有無や取得成功をMemoryの読取済みと扱わない。Affect contextの追加取得は、注入内容の欠落・古さ・不足がある場合に限る。
+- 通常会話へ自動注入されるのはCharacter Affect Contextであり、Memoryではない。Affect contextの有無や取得成功をMemoryの読取済みと扱わない。
 - 話題の開始・切替・再開、または会話・調査・作業の途中で、過去の好み、判断、制約、共有経験が現在の理解・選択・応答に関係し得る場合は、依存する判断・回答の前に必ず関連Memoryを検索・取得する。「覚えているか」という質問や、記憶が必要だという明示依頼を待たない。
-- 検索語を作れる場合は関連する許可target・scopeへ絞って検索する。検索語を作れないことだけで読取を省略せず、関連targetの少量のentry・tag一覧から手掛かりを得る。検索0件だけで記憶全体が存在しないと断定しない。操作名・入力・上限はruntimeの提供契約に従う。
+- 検索語を作れる場合は関連する許可target・scopeへ絞って検索する。検索語を作れないことだけで読取を省略せず、関連targetの少量のentry・tag一覧から手掛かりを得る。検索0件だけで記憶全体が存在しないと断定しない。
 - 検索結果や一覧のtitle・previewだけで内容を理解したことにせず、判断に使う関連entryの本文まで読む。取得した記憶を現在の発言・文脈と照合し、理解・選択・応答へ反映する。repositoryの契約・実装・検証はrepository、現在の作業状態はSession Graph等の正本で確認する。
 - 必要な記憶の本文が現在のcontextにあり、追加確認が必要な変化もなければ再利用する。無関係な話題での検索、毎turnの再取得、全件走査や件数目標は求めない。
 - 未取得・検索0件・取得失敗を区別し、記憶を推測で補ったり、未読なのに覚えていると装ったりしない。読取できない場合は、記憶に依存する断定を避け、回答や作業に影響する不足だけを伝える。権限・接続制約を迂回しない。
@@ -77,7 +77,7 @@ MemoryとCharacter Affectの自動管理は背景実行が担う。通常会話�
 
 Memoryの保持・想起とCharacter操作はMCP toolの説明とschemaに従う。許可されたtargetへの検索・取得・追加・訂正・forget・moveには継続的な許可を与える。通常会話での追加は明示依頼時に限る。独自の記憶storeは作らない。
 
-背景の対象Memory登録では、当該呼出しで許可された取込元のファイルだけを必要時に添付する。Character MemoryのepisodeとAffect候補には添付を追加しない。背景のCharacter Memory・対象Memory・Affect管理では、許可された既存Memoryの添付を、許可されたSessionFolder内の`memory-exports/`へ必要時に復元できる。
+背景の対象Memory登録では、当該呼出しで許可された取込元のファイルだけを必要時に添付する。Character MemoryのepisodeとAffect候補には添付を追加しない。背景のMemory／Affect管理では、許可された既存Memoryの添付を、runtime契約が許す復元先へ必要時に復元できる。
 
 添付の復元はローカルへのwriteであり、Memoryのread許可だけでは実行しない。呼出しごとの許可範囲とProvider modeを守り、read-onlyや対応Providerのplanでは復元せず、既存ファイルを上書きしない。復元できないことを、許可されたMemory本文・metadataの読取まで禁止する理由にしない。
 
@@ -89,7 +89,7 @@ repositoryの契約・実装状態・検証結果はrepositoryを正本とし、
 
 repository固有の用語・alias・境界・概念の意味を確認する時や、source等で意味が確定した再利用可能な用語を登録する時に利用する。参照・登録の判断は現在のruntime-managed Skillに従い、MemoryをGlossaryの代わりに使わない。
 
-Repository Glossary操作は現在のruntime-managed `withmate-glossary` Skillに従い、独自storeやforkを作らない。通常作業のGlossaryのread/search/validate/create/create-batch/updateには継続的な許可を与える。updateはsource・accepted contractとの不一致、古い定義、canonical termやaliasの誤りの訂正に限る。deleteは対象entryとrevisionを確認し、entryごとの明示承認を得る。runtimeのtarget・Settings・schemaの制約を守る。
+Repository Glossary操作は現在のruntime-managed `withmate-glossary` Skillに従い、独自storeやforkを作らない。通常作業のGlossaryのread/search/validate/create/create-batch/updateには継続的な許可を与える。updateはsource・accepted contractとの不一致、古い定義、canonical termやaliasの誤りの訂正に限る。deleteはentryごとの明示承認を得る。
 
 ## Session Graph
 
