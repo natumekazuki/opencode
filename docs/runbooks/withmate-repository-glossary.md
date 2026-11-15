@@ -4,7 +4,7 @@ repository用語の意味確認・登録は[WithMate利用guide](../guides/withm
 
 ## 接続とSkill
 
-OpenCode対応WithMateは `withmate-glossary` をmanaged HTTP MCPとしてturnごとに供給する。endpointは `/mcp/glossary`。URL・短命tokenはhostが渡し、native configへ登録しない。Memoryと共通のbinding境界は[Memory／Character runbook](withmate-character-context.md)を参照する。
+OpenCode対応WithMateは `withmate-glossary` をmanaged HTTP MCPとしてturnごとに供給する。endpointは `/mcp/glossary`。URL・短命tokenはhostが渡し、native configへ登録しない。接続は当該Sessionのbinding境界に従い、別Sessionの値や推測したURL・tokenで補わない。
 
 WithMateのSkill同期先を `~/.config/opencode/skills` に合わせる。任意の別folderへ同期しただけではOpenCodeのnative discovery対象にはならない。配布された `skills/withmate-glossary/` はWithMate管理とし、このrepositoryでは追跡しない。managed markerがない同名folderを無断で上書き・forkしない。配置と更新はWithMate側の配布契約に従う。
 

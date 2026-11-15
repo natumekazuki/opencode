@@ -4,7 +4,7 @@
 
 Worker内の細かな分担・独立reviewには製品nativeのサブエージェントを使える。全体統括・個別統括が直接行う最小限の判断・参照等と実作業の境界は[協同guide](../guides/withmate-collaboration.md#担当の選択と依頼)に従い、短い独立確認を理由としたnative子への実作業の直接委譲は行わない。Roleの使い分けでは、独立した会話・Character・実行設定・担当状態として継続して追う仕事に通常子、担当内で成果を回収・統合する分業にnativeを基本とし、調査／実装／review、規模、長さ、Modelだけで固定しない。同じ仕事を両方へ重複委譲しない。
 
-WithMateの子は別の参加者であり、[Session間の協同](../guides/withmate-collaboration.md)でRole・背景確認・Coordination・明示報告・Turn終了と再開を扱う。同じ成果の続き・修正・受入対応には継続可能な既存Sessionを使い、新規との判断も同guideに従う。native子は別のWithMate参加者や独立したCharacter Memory／Affect所有者とはみなさず、製品nativeの通知・返却・待機契約を使う。
+WithMateの子は別の参加者であり、[Session間の協同](../guides/withmate-collaboration.md)でRole・背景確認・Coordination・明示報告・Turn終了と再開を扱う。同じ成果の続き・修正・受入対応には継続可能な既存Sessionを使い、新規との判断も同guideに従う。native子は別のWithMate参加者とはみなさず、製品nativeの通知・返却・待機契約を使う。
 
 どちらも既存の委譲許可、必須専門審査、操作権限とruntime制限に従う。以下のnative用model・tool制限をWithMate全Providerのallowlistへ広げず、WithMateのカタログをnativeの許可拡大にも使わない。WithMate通常子の[実行条件の選定](../guides/withmate-collaboration.md#実行条件の選定)は協同guideに従う。
 
@@ -12,7 +12,7 @@ WithMateの子は別の参加者であり、[Session間の協同](../guides/with
 
 委譲前に読む。OpenCode V2の `subagent` toolを使い、対象、必要な結果、権限、完了条件と必要な参照先を依頼へ渡す。子はfresh contextで動くため履歴継承を前提にしない。全規約を複製せず、必要な文書を解決済みの実pathで渡す。
 
-委譲時は現在のSessionFolderと、作業に必要な共有情報・参照先を渡す。子がtool制限等でMemory・Session Graph・Glossaryを直接利用できない場合は、親が許可範囲内で必要な取得・記録を担い、子へ必要な結果を渡す。子のtool権限とSession bindingの制約を守る。
+委譲時は現在のSessionFolderと、作業に必要な共有情報・参照先を渡す。子がtool制限等でSession Graph・Glossaryを直接利用できない場合は、親が許可範囲内で必要な取得・記録を担い、子へ必要な結果を渡す。子のtool権限とSession bindingの制約を守る。
 
 ## 担当
 
