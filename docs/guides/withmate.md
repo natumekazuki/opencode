@@ -16,27 +16,17 @@ WithMateのSession RoleやInput Provenanceを伴う依頼・相談・報告を�
 
 ## Character表現の適用範囲
 
-Character表現はユーザー向け応答と、repositoryに含めず外部へ提出・公開しないSession Graph・手元の作業記録の自然文へ適用する。保存先だけで判定せず、SessionFolder内のPR本文案や外部提出用文書も成果物として扱う。repository内・外部向けのコード、設定、test、文書、commit message、PR本文、diff等は、明示指定がない限りCharacterの口調・設定・台詞を混ぜず、既存文体と目的に従う。
+ユーザー・他Sessionとの対話と、本人の非公開記録の自然文全体には、話し手自身のCharacter表現を使う。技術説明・相談・進捗・最終報告でも、本人の一人称・呼称・着眼・構成・反応を保つ。発話量と個性の強さは別に調整し、簡潔さや真剣さだけを理由に個性を消さない。
 
-Characterは語尾の置換だけでなく、一人称・呼称・語彙・構文・距離感、その場の着眼点、関心、相手への反応、何からどう伝えるかにも表す。技術説明・相談・進捗・最終報告でも、話題と相手に沿って本人らしい声を保つ。発話量と表現の強さは別々に調整し、簡潔さや真剣さだけを理由に個性を消さない。同じ応答に成果物案や引用を含む場合は、会話の地の文と再利用される本文を分け、本文には用途に合う文体・形式を、引用には正確な原文を保つ。
+repositoryへ含めるものや提出・公開用の成果物は、草案も含め、明示指定がなければ対象の文体に従う。Glossaryもrepositoryの用語定義として扱う。保存先だけで判定せず、会話の説明と再利用する本文を分ける。
 
-WithMateの各機能への適用は、次表の用途に従う。Character表現を適用する機能では自然文全体を対象とし、タイトル・要約・本文・説明・理由などの項目によって限定しない。利用可能な項目と形式は現在のruntime契約に従う。
-
-| 機能・用途 | Character表現の扱い |
-| --- | --- |
-| Session間の依頼・相談・進捗・最終報告 | 送信者自身のCharacter表現を使い、受信者の紹介を自己の指示にしない |
-| 非公開のSession Graph | 当該SessionのCharacter表現を使う |
-| Repository Glossary | repository内の用語定義として既存文体と目的に従い、明示指定がない限りCharacterの口調・台詞を混ぜない |
-
-話し方を変えても、誰の要求・判断・作業・検証か、事実・条件・状態、ID・状態値・数値・列挙値・コマンド出力・正確な引用、技術判断・操作権限・検証結果・未確認事項の扱いは変えない。既存記録の一括変換は行わない。
-
-この区分は自然文の表現だけを定める。機能の利用契機や操作権限を追加・変更しない。
+表現を変えても、誰の要求・判断・作業・検証か、事実・条件・状態・識別子・数値・列挙値・コマンド出力・正確な引用・判断根拠・確度・権限・検証結果は変えない。既存記録を一括変換せず、この区分を機能の使用・登録権限へ広げない。
 
 ## Repository Glossary
 
 repository固有の用語・alias・境界・概念の意味を確認する時や、source等で意味が確定した再利用可能な用語を登録する時に利用する。参照・登録の判断は現在のruntime-managed Skillに従う。
 
-Repository Glossary操作は現在のruntime-managed `withmate-glossary` Skillに従い、独自storeやforkを作らない。通常作業のGlossaryのread/search/validate/create/create-batch/updateには継続的な許可を与える。updateはsource・accepted contractとの不一致、古い定義、canonical termやaliasの誤りの訂正に限る。deleteはentryごとの明示承認を得る。
+Repository Glossary操作は現在のruntime-managed `withmate-glossary` Skillに従い、独自storeやforkを作らない。通常作業のGlossaryのread/search/validate/create/create-batch/updateには継続的な許可を与える。updateはsource・accepted contractとの不一致、古い定義、canonical termやaliasの誤りの訂正に限る。deleteは対象entryとrevisionを確認し、entryごとの明示承認を得る。runtimeのtarget・Settings・schemaの制約を守る。
 
 ## Session Graph
 
