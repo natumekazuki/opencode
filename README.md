@@ -11,7 +11,7 @@ OpenCode V2の規約・Skill・agent・設定例を管理する。配置先は `
 | `docs/architecture/subagent-workspace.md` | 委譲と担当の選択 |
 | `docs/runbooks/` | WithMateの接続・診断 |
 | `skills/` | 自前で保守する6 Skillと必要なscript・reference・license |
-| `agents/` | light・judgment・read-onlyのV2定義 |
+| `agents/` | light・judgment・read-onlyのV2定義。native呼び出しは設定例のpolicyで無効 |
 | `opencode.example.jsonc` | モデルと権限の配布用開始値 |
 | `opencode.jsonc` | Git管理しない端末local実設定 |
 
@@ -27,7 +27,7 @@ opencode debug config
 opencode debug agents
 ```
 
-設定はglobal・project・host等でmergeされる。新しいsessionで読込元、実効agent/model/permissionを確認する。既存sessionの選択済みmodelは既定変更だけでは切り替わらない。詳細は[公式V2 config](https://opencode.ai/v2/docs/config/)と[agents](https://opencode.ai/v2/docs/agents/)を参照する。
+設定はglobal・project・host等でmergeされる。新しいsessionで読込元、実効agent/model/permissionとpolicyを確認する。既存processが旧設定を保持する場合は新しいprovider Sessionで確認する。既存sessionの選択済みmodelは既定変更だけでは切り替わらない。詳細は[公式V2 config](https://opencode.ai/v2/docs/config/)と[agents](https://opencode.ai/v2/docs/agents/)を参照する。
 
 この場所での編集はlive配置へ即時影響する。別checkoutの配布元編集、local適用、master統合、公開を区別する。共通guideはAGENTS指定の固定pathから読み、別checkoutをruntime配置の代用にしない。
 
@@ -41,9 +41,9 @@ opencode debug agents
 
 画像で利用対象として示された候補からの初期配分であり、性能比較の実測ではない。モデルのallowlist・無効化・自動fallbackは設定しない。OpenCodeとOpenCode Goの両provider経路を残す。Freeを含む手動model切替は可能で、課金・Extra Usage設定は変更しない。
 
-shellと外部directoryへのアクセスは承認確認を残す。固定配置の共通文書・Skillを読むため、その設定directoryへの外部アクセスのみ許可し、同directoryの編集は別に確認する。SessionFolderやAdditional Directoriesの実pathを共通設定へ固定しない。read-onlyとexploreは編集・shell・MCP・再委譲を禁止し、許可された読取系toolだけを使う。planは計画file以外を編集せず、shellを禁止し、read-only/exploreだけへ委譲する。親が必要なコマンド実行・結果保存を担当する。
+shellと外部directoryへのアクセスは承認確認を残す。固定配置の共通文書・Skillを読むため、その設定directoryへの外部アクセスのみ許可し、同directoryの編集は別に確認する。SessionFolderやAdditional Directoriesの実pathを共通設定へ固定しない。設定例のpolicyはOpenCode nativeの `subagent` 呼び出しを拒否する。planは計画file以外の編集とshellを禁止する。WithMate通常子Sessionの委譲は別経路であり、このpolicyの対象にしない。
 
-OpenCodeのpermissionはOS sandboxではない。承認したshellはhostユーザーの権限で動き、文字列・path判定だけで子processのfilesystem/networkアクセスを隔離できない。子は親のpermissionの部分集合ではなく自分の規則を使う。project設定や永続承認も実効値へ影響するため、設定例を管理者policyや強制隔離の代わりにしない。[公式permission仕様](https://opencode.ai/v2/docs/permissions/)
+OpenCodeのpermissionはOS sandboxではない。承認したshellはhostユーザーの権限で動き、文字列・path判定だけで子processのfilesystem/networkアクセスを隔離できない。project設定や上位policyも実効値へ影響するため、設定例を管理者policyや強制隔離の代わりにしない。[公式permission仕様](https://opencode.ai/v2/docs/permissions/)
 
 tool許可は、依頼のread-only境界や外部write・破壊的操作・push・protected branch変更等への承認を代替しない。WithMate MCPはtoolごとの承認確認を残し、継続許可の範囲と個別承認が必要な操作をguideと現在のruntime契約で判断する。
 
@@ -107,7 +107,7 @@ Session Graphは同じCrewの起点・通常子孫Main・各MainのAuxiliaryの�
 python -X utf8 -m unittest discover -s skills/review-test-value/scripts -p "test_*.py"
 ```
 
-Python/TypeScript/C#の変更testは固定task baseから抽出し、全recordをread-only子へ審査委譲する。手順は[変更test](docs/guides/test-changes.md)と同Skillによる。秘密値を含む実設定やservice情報の全文を検証ログへ出さない。
+Python/TypeScript/C#の変更testは固定task baseから抽出し、全recordを独立したread-only担当へ審査委譲する。手順は[変更test](docs/guides/test-changes.md)と同Skillによる。秘密値を含む実設定やservice情報の全文を検証ログへ出さない。
 
 ## 課題管理とリリース
 

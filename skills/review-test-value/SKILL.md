@@ -1,11 +1,11 @@
 ---
 name: review-test-value
-description: Python、TypeScript、C#の変更testをGit差分から決定論的に抽出し、構造化された@test-value metadataとtest本文を通常のread-onlyサブエージェント審査へ渡す。runtime test collectionや動的生成caseの展開には使わない。
+description: Python、TypeScript、C#の変更testをGit差分から決定論的に抽出し、構造化された@test-value metadataとtest本文を独立したread-only担当の審査へ渡す。runtime test collectionや動的生成caseの展開には使わない。
 ---
 
 # Review Test Value
 
-このSkillは、変更されたtestの選定と構造化recordの抽出を決定論的なscriptへ任せ、意味判断を親エージェントと通常のread-onlyサブエージェントへ委譲する。review担当の選択は、共通`AGENTS.md`の「条件付き参照」から解決した`docs/architecture/subagent-workspace.md`の委譲基準に従い、OpenCodeの`subagent` toolで`read-only`を起動する。子は新しいcontextで動くため必要な条件を依頼本文へ渡す。対象の選定、metadataの構文、test declarationとsource範囲の対応付けはscriptの結果を正本とし、親がrecordを都合よく選び直したりmetadataを補完したりしない。
+このSkillは、変更されたtestの選定と構造化recordの抽出を決定論的なscriptへ任せ、意味判断を親エージェントと独立したread-only担当へ委譲する。OpenCodeのnativeサブエージェントは呼び出さず、WithMateの通常子Sessionを利用できる場合は[協同guide](../../docs/guides/withmate-collaboration.md)に従って担当を選ぶ。対象fileを編集しない依頼と実効tool権限を区別し、必要なread-only条件を確認する。独立担当を利用できない場合は審査を免除せず、不足を報告して完了判断を保留する。対象の選定、metadataの構文、test declarationとsource範囲の対応付けはscriptの結果を正本とし、親がrecordを都合よく選び直したりmetadataを補完したりしない。
 
 ## Workflow
 
@@ -23,7 +23,7 @@ python -X utf8 "$reviewSkillRoot/scripts/extract_test_values.py" `
 working treeが既定で、indexだけを対象にする場合は`--staged`、commitへ固定する場合は`--head <commit>`を追加する。[Git選択契約](references/git-selection-v1.md)のsnapshot semanticsを維持する。
 
 4. exit `0`のJSONを読み、`tests`と`transitions`の全recordを確認する。exit `1`は抽出未完了であり、sourceまたはmetadataに実際の不備があれば修正する。直比較が`RECORD_TRANSITION_UNRESOLVED`だけで停止した場合は、[統合履歴による審査](references/git-selection-v1.md#統合履歴による審査)の条件を満たす別経路を利用できる。抽出を通すために製品testの意味・配置を変えない。exit `2`はCLI、adapter、I/Oなどの失敗であり、いずれの失敗でも部分結果をレビューへ渡さない。
-5. 親エージェントは、契約・SUT・fixture等を共有するrecordを、担当が全件を確認できるbatchへまとめ、利用できるサブエージェント枠の範囲で選択した担当へreviewを委譲する。並列に委譲できない場合は親の判断で順次扱う。独立した対象やcontext上の必要で分割し、batch内の全recordと遷移を確認する。観点別・念のための多重reviewは増やさない。
+5. 親エージェントは、契約・SUT・fixture等を共有するrecordを、担当が全件を確認できるbatchへまとめ、選択した独立担当へreviewを委譲する。並列に委譲できない場合は親の判断で順次扱う。独立した対象やcontext上の必要で分割し、batch内の全recordと遷移を確認する。観点別・念のための多重reviewは増やさない。
 6. 各review依頼には、repository root、task baseと対象snapshotまたは現在のdiff、対象fileとlocator、抽出recordのmetadataとtest source、対象scope、本来の責務・合意した維持契約とその根拠、read-onlyであること、下記のreview観点と適用される統合基準を含める。機構やtestの廃止・変更理由と未確認事項も区別して伝える。reviewerは対象testから必要なproduction code・fixture・oracle・契約を辿り、自ら妥当性を判断する。関連する未変更testも判断に必要な参照には使えるが、抽出対象の選び直しや全repositoryの追加審査へ広げない。親が既知の参照先や、担当のtoolでは取得できない対象snapshotのsourceを提供してよい。対象snapshotと取得元を示し、親の要約・判断でsource確認を代替しない。
 7. 親エージェントは自然言語のreview結果を読み、共通`AGENTS.md`の「条件付き参照」から解決した`docs/guides/development.md`の「統合優先・修正分離」に従って各指摘の採否・対応時期と完了可否を判断する。今回必要なmetadataとtest本文の整合修正等は、依頼範囲内の修正と必要な確認で完結するなら仕上げとして扱う。必須確認や採否・統合判定に必要なcontext不足、仕上げやブロッカーの修正、新たな変更に必要な範囲で、対象recordへ追加contextや追加reviewを依頼できる。担当は同じ委譲基準で選ぶ。全件解消を目的とした改善探索や、同じ入力でのvarianceを期待する自動retryは行わない。
 
@@ -88,7 +88,7 @@ reviewerはtest sourceからproduction code、fixture、helper、mock、oracle�
 親エージェントは次を確認してreviewを完了する。review完了と、指摘の全件修正・統合可否は分ける。
 
 - 直比較、または上記の統合履歴経路の全区間でextractorが成功し、Git差分から得た全対象recordを確認できている。
-- 担当サブエージェントのreview結果を全recordまたは明示したbatchについて読んでいる。
+- 独立担当のreview結果を全recordまたは明示したbatchについて読んでいる。
 - 各指摘の採否・対応時期と対応状況が明確であり、後追いに該当する残件はプロジェクトで定義した管理先へ権限内で引き継いでいる。不採用の改善案を後追いへ登録せず、現diffへの全件反映も要求しない。
 - context不足は、必要な採否・必須確認・統合判定を妨げるものと、後追いの基準を満たす調査を区別している。
 
