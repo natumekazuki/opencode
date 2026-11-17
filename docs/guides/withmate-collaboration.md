@@ -102,7 +102,7 @@ Worktreeの準備では、対象repository・branchを `session.resolve_worktree
 
 親が自分のTurnの保存結果を参照する最終報告は `deliveryTiming: "after_source_turn"` を選び、受付を確認したら親の処理を待たずTurnを終了する。途中相談・進捗は `immediate` または即時のCoordination経路を使う。相談・依頼を配送済みで、回答・成果待ち以外の独立作業がなければ、親もTurnを終え、全体統括はユーザーとの対話へ戻る。回答・報告を受けた後続Turnで受入・継続を判断し、完了までの責任を持つ。sleepや状態照会の反復でTurnを維持しない。
 
-送信受付、相手のTurn開始・終了、結果保存、依頼達成を区別する。送信結果が不明なら元のrequestIdと正確なtargetで `session.get_receipt` を照会し、新しいIDで重複送信しない。Coordinationも現在の契約に従い、同じ操作の結果を確かめる。待機中という状態だけでは失敗ではない。
+送信受付、相手のTurn開始・終了、結果保存、依頼達成を区別する。送信結果が不明なら元のrequestIdと正確なtargetで `session.get_receipt` を照会し、新しいIDで重複送信しない。割当Workspaceの不在を理由に送信が拒否された場合は、[作業領域の再利用と回収](../architecture/subagent-workspace.md#作業領域の再利用と回収)に従い送信元Sessionが復旧を担う。Coordinationも現在の契約に従い、同じ操作の結果を確かめる。待機中という状態だけでは失敗ではない。
 
 親は報告で判断できるなら、その内容で依頼単位の受入・修正依頼・統合を判断する。保存結果が必要な場合だけ依頼のreceiptId、または報告のoriginにある送信元Turnを固定して `session.get_execution` と必要な出力を読む。最新Turnや全履歴へ広げず、未保存・不明・failed・canceledを成功に読み替えない。`completed` も作業達成とは別である。
 
