@@ -4,7 +4,7 @@
 
 OpenCodeのnative `subagent` toolによる呼び出しは無効とする。WithMate通常子Sessionの選択・依頼と、統括が直接行える範囲は[協同guide](../guides/withmate-collaboration.md#担当の選択と依頼)に従う。必須の独立審査は免除せず、利用可能な独立担当がいなければ完了判断を保留する。
 
-WithMateの子は別の参加者であり、[Session間の協同](../guides/withmate-collaboration.md)でRole・背景確認・Coordination・明示報告・Turn終了と再開を扱う。同じ成果の続き・修正・受入対応には継続可能な既存Sessionを使い、新規との判断も同guideに従う。
+WithMateの子は別の参加者であり、Role・背景確認・Coordination・明示報告・Turn終了と再開は同guideに従う。同じ成果の続き・修正・受入対応には継続可能な既存Sessionを使い、新規との判断も同guideに従う。
 
 通常のMain Sessionは役割を問わず、全体統括・個別統括・Workerを含めて1 Session・1専有Workspaceとし、同じ作業directoryを複数のSessionへ重複割当しない。他SessionのWorkspaceを追加directory等で直接編集して分離を迂回せず、許可されたread-only参照と共同編集は区別する。Auxiliaryとnativeサブエージェントはこの必須ルールの対象外であり、既存の編集所有・衝突回避・権限はそのまま保つ。
 
