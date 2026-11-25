@@ -35,7 +35,7 @@ WithMateはCharacter・SessionFolder・Additional DirectoriesをTurnごとに渡
 
 ## 保守と検証
 
-変更した判断と、似ていても結論が異なる場面を対にする。例えば、任意の注記と回復手段、旧要素の削除確認と今も守る非公開契約を比べる。出力方針を比較するときは同じ架空の依頼・履歴・model・Character・tool条件で変更前後の応答を見て、必要な判断・結果が伝わるかを確かめる。文字数や条文の一致を行動改善の証拠にしない。
+比較が依頼された結果に必要な場合は、判断に効く条件を選び、条件差が結論を左右するならその範囲を示す。条文や文字数だけから、生成応答の改善を結論づけない。
 
 配置は `opencode debug paths`、設定元・agentは `opencode debug config`／`debug agents`、Skillは `opencode api skill.list` で確認できる。出力には実設定やSkill本文も含まれるので、ログには対象のpath・ID・必要な判定だけを出す。Global instructionとSkillは別の読込経路であり、ファイルの存在、実際の読込、生成応答、WithMateでの実配送を区別する。協同経路を変更した時は、実際の送信元・宛先と保存・再開を対応させる。
 
@@ -53,7 +53,7 @@ python -X utf8 -m unittest discover -s skills/review-test-value/scripts -p "test
 
 維持対象はSkill名・配置入口、変更test抽出器のCLI・result・metadata・source adapter・Git選択契約、Session Graph SkillのMCP利用方針である。MCPのschemaと認可はruntimeが定める。既存データと実設定はtagの有無によらず保護する。内部実装・指示の表現・初期model配分は固定せず、外部modelの提供・費用・品質やWithMate本体は保証対象としない。
 
-維持契約の破壊はmajor、互換機能追加はminor、互換修正はpatchとする。公開に先立ち[版別リリースノート](docs/releases/)と案内を更新する。今回の変更と更新方法は [v3.1.0](docs/releases/v3.1.0.md) を参照。正式なtag・GitHub Releaseの公開は統合とは別に行う。
+維持契約の破壊はmajor、互換機能追加はminor、互換修正はpatchとする。公開に先立ち[版別リリースノート](docs/releases/)と案内を更新する。今回の変更と更新方法は [v3.1.1](docs/releases/v3.1.1.md) を参照。正式なtag・GitHub Releaseの公開は統合とは別に行う。
 
 ## 配布元間の保守
 
