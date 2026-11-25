@@ -53,7 +53,7 @@ python -X utf8 -m unittest discover -s skills/review-test-value/scripts -p "test
 
 維持対象はSkill名・配置入口、変更test抽出器のCLI・result・metadata・source adapter・Git選択契約、Session Graph SkillのMCP利用方針である。MCPのschemaと認可はruntimeが定める。既存データと実設定はtagの有無によらず保護する。内部実装・指示の表現・初期model配分は固定せず、外部modelの提供・費用・品質やWithMate本体は保証対象としない。
 
-維持契約の破壊はmajor、互換機能追加はminor、互換修正はpatchとする。公開に先立ち[版別リリースノート](docs/releases/)と案内を更新する。今回の変更と更新方法は [v3.1.0](docs/releases/v3.1.0.md) を参照。正式なtag・GitHub Releaseの公開は統合とは別に行う。
+維持契約の破壊はmajor、互換機能追加はminor、互換修正はpatchとする。公開に先立ち[版別リリースノート](docs/releases/)と案内を更新する。今回の変更と更新方法は [v3.1.1](docs/releases/v3.1.1.md) を参照。正式なtag・GitHub Releaseの公開は統合とは別に行う。
 
 ## 配布元間の保守
 
