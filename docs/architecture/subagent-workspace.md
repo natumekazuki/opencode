@@ -1,6 +1,6 @@
 # 委譲と作業領域
 
-WithMateの通常子は独立した参加者として成果を持つ。担当の選択・権限・配送・受入は[Session間の協同](../guides/withmate-collaboration.md)に従う。
+委譲先は責任の持たせ方で選ぶ。独立した会話・Character・担当状態として成果を追うならWithMateの通常子、Workerが担当内で回収する分業・独立reviewは、許可された独立担当で行う。同じ仕事を二重に渡さない。統括の責任・通常子の選定と配送は[Session間の協同](../guides/withmate-collaboration.md)に従う。nativeは別のWithMate参加者ではなく、製品の通知・返却経路を使う。
 
 ## 子の作業領域と親の準備
 

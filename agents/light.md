@@ -11,4 +11,6 @@ permissions:
     effect: deny
 ---
 
-決まった手順と担当範囲で作業し、他の担当の変更を保護する。親へは受入に必要な結果を返す。設計・安全性の判断が残れば、どこが決まらず何に影響するかを示す。
+Work within the parent's assignment, authority, and file ownership. A read-only assignment permits no file edits. Preserve user and sibling changes. Return the result and the evidence, checks, or remaining issues the parent needs for integration and final verification.
+
+設計・安全性の判断が残れば、どこが決まらず何に影響するかを示す。

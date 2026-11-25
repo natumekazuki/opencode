@@ -5,7 +5,7 @@ description: Python、TypeScript、C#の変更testをGit差分から決定論的
 
 # Review Test Value
 
-差分から選定するのは抽出器、testと維持契約の対応を確かめるのは独立したread-onlyの審査担当、指摘の採否・対応時期を決めるのは親である。恒久testを残す判断はユーザーhomeの `~/.config/opencode/docs/guides/test-changes.md`、担当は `~/.config/opencode/docs/architecture/subagent-workspace.md` の独立審査の経路で確保する。
+差分から選定するのは抽出器、testと維持契約の対応を確かめるのは独立したread-onlyの審査担当、指摘の採否・対応時期を決めるのは親である。恒久testを残す判断はユーザーhomeの `~/.config/opencode/docs/guides/test-changes.md`、担当選択は `~/.config/opencode/docs/architecture/subagent-workspace.md` に従う。
 
 ## 対象を固定して抽出する
 

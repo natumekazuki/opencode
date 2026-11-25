@@ -1,6 +1,6 @@
 # OpenCode 個人設定
 
-OpenCode V2で使う共通指示・Skill・agent・設定例の配布元。毎回読む入口は [AGENTS.md](AGENTS.md)、詳しい判断はそこから指定するガイドに置く。このREADMEは配布物の導入・保守に使う。
+`natumekazuki/opencode` は、OpenCodeに配置する共通指示・Skill・設定例の配布元である。作業時の入口は [AGENTS.md](AGENTS.md)。本書は配布物の導入・検証と、このrepository自身の保守を扱う。他のrepositoryの課題管理先や公開手順を定めるものではない。
 
 ## 配置と導入
 
@@ -12,6 +12,7 @@ OpenCode V2で使う共通指示・Skill・agent・設定例の配布元。毎�
 | [ガイド一式](docs/guides/)、[作業領域](docs/architecture/subagent-workspace.md)、[Glossary接続手順](docs/runbooks/withmate-repository-glossary.md) | 入口・Skillから必要な時に読む。別checkoutやprojectの同名ファイルでは代替しない |
 | [skills/](skills/) の同梱6 Skill | 下記のSkill本体と各自のreference・script・license。native discoveryで登録し、本文は `skill` toolで読む |
 | [agents/](agents/)、[opencode.example.jsonc](opencode.example.jsonc) | agent定義とモデル・権限の開始値。設定例は実設定とは別物 |
+| 導入・診断、記入例 | [用途別runbook](docs/runbooks/)、[ADR・review記録の記入例](templates/)（任意） |
 
 既存の `opencode.json`／`opencode.jsonc` があれば、必要な項目だけを確認して取り込む。今回の規約更新に設定の置換は要らない。新規導入で両方とも存在しない時だけ、設定例を `opencode.jsonc` としてコピーできる。実設定、認証、プラグイン、履歴・cache、WithMateが供給するSkill・接続値・端末固有資料はコピー対象外である。
 
@@ -31,11 +32,13 @@ OpenCode V2で使う共通指示・Skill・agent・設定例の配布元。毎�
 - [japanese-tech-writing-review](skills/japanese-tech-writing-review/SKILL.md) と [natural-japanese](skills/natural-japanese/SKILL.md) は明示起動用。`metadata.opencode/autoinvoke: false` を保つ。
 - 変更testの抽出にはGit、Python 3.11以降、TypeScriptにはNode.js・npm、C#には.NET 8 runtimeと対応SDK・locked restoreが必要。TypeScriptの依存は配布した `skills/review-test-value/scripts/adapters/typescript` で `npm ci` を実行する。
 
-WithMateはCharacter・SessionFolder・Additional DirectoriesをTurnごとに渡し、Glossary・Session Graph・Sessionのmanaged HTTP MCPを当該Sessionへ供給する。同期先はOpenCodeの探索対象とし、managed `withmate-glossary` の同名forkや短命tokenの手動登録はしない。接続の診断は[runbook](docs/runbooks/withmate-repository-glossary.md)、通常子の実行条件・相談・配送は[協同ガイド](docs/guides/withmate-collaboration.md)に従う。
+WithMateのGlossary／Session Graph／SessionのHTTP接続とmanaged `withmate-glossary` SkillはWithMateが供給する。通常の導入で手動登録・forkや短命tokenの永続化はしない。Glossaryの手動STDIOはrunbookの開発・診断用途に限る。通常子の選定・配送は[協同guide](docs/guides/withmate-collaboration.md)、Worktreeの配置先決定と実体の確認は[作業領域guide](docs/architecture/subagent-workspace.md#git-worktreeの配置)に従う。端末固有の方針ファイルは配布・自動移行しない。
 
-## 保守と検証
+## 配布時の確認
 
-比較が依頼された結果に必要な場合は、判断に効く条件を選び、条件差が結論を左右するならその範囲を示す。条文や文字数だけから、生成応答の改善を結論づけない。
+変更が影響する契約を確認する。配布元の文書を確認しただけなら、端末での適用や実動作まで確認したとは扱わない。出力比較が依頼された場合は、[比較手順](docs/runbooks/compare-subagent-roles.md#役割指示を比較する時)を参照する。
+
+モデル実行やsecretを公開CIへ追加しない。確認した対象・条件・結果と判断に響く未確認は既存の[review記録](docs/guides/development.md#sessionfolderのreview記録と対応管理)等に残し、文書の一致を実動作の証拠にしない。
 
 配置は `opencode debug paths`、設定元・agentは `opencode debug config`／`debug agents`、Skillは `opencode api skill.list` で確認できる。出力には実設定やSkill本文も含まれるので、ログには対象のpath・ID・必要な判定だけを出す。Global instructionとSkillは別の読込経路であり、ファイルの存在、実際の読込、生成応答、WithMateでの実配送を区別する。協同経路を変更した時は、実際の送信元・宛先と保存・再開を対応させる。
 
@@ -45,16 +48,22 @@ WithMateはCharacter・SessionFolder・Additional DirectoriesをTurnごとに渡
 python -X utf8 -m unittest discover -s skills/review-test-value/scripts -p "test_*.py"
 ```
 
-変更したtestの独立審査は[変更testガイド](docs/guides/test-changes.md)に従う。検証結果は[review記録](docs/guides/development.md#sessionfolderのreview記録と対応管理)等に残す。
+変更したtestの独立審査は[変更testガイド](docs/guides/test-changes.md)に従う。
 
-## 課題管理とリリース
+## このrepositoryの管理先とリリース境界
 
-本リポの不具合・機能要求・後追いは[GitHub Issues](https://github.com/natumekazuki/opencode/issues)で管理し、対応版未指定はバックログとする。統合先は `master`。統合・外部登録・公開は別の操作であり、[開発ガイド](docs/guides/development.md)の条件と操作権限に従う。
+バグ・後追い残件の管理先は [natumekazuki/opencode のGitHub Issues](https://github.com/natumekazuki/opencode/issues)。Issueの登録・更新・closeは外部writeとして、共通入口の承認範囲に従う。
 
-維持対象はSkill名・配置入口、変更test抽出器のCLI・result・metadata・source adapter・Git選択契約、Session Graph SkillのMCP利用方針である。MCPのschemaと認可はruntimeが定める。既存データと実設定はtagの有無によらず保護する。内部実装・指示の表現・初期model配分は固定せず、外部modelの提供・費用・品質やWithMate本体は保証対象としない。
+### 本repositoryの開発・リリース境界
 
-維持契約の破壊はmajor、互換機能追加はminor、互換修正はpatchとする。公開に先立ち[版別リリースノート](docs/releases/)と案内を更新する。今回の変更と更新方法は [v3.1.1](docs/releases/v3.1.1.md) を参照。正式なtag・GitHub Releaseの公開は統合とは別に行う。
+- `vMAJOR.MINOR.PATCH` タグが指すcommitを配布版とする。タグのないcommitやbranch上の途中状態は互換保証の対象としない。
+- 維持するのは各タグのリリースノートで明示した利用者向け契約であり、実装全体ではない。[初回の維持対象 v1.0.0](docs/releases/v1.0.0.md) から `review-test-value` のCLI、構造化result、metadata v2、対応adapter、Git差分選択を含む。詳細は[契約別の参照文書](skills/review-test-value/references/)で確認する。
+- 破壊的な契約変更はmajor、互換な変更はminorまたはpatchを上げて新しいタグへ記録する。リリースごとに [一覧](docs/releases/) と `docs/releases/vMAJOR.MINOR.PATCH.md` を更新し、変更・互換性・検証結果を残す。
 
-## 配布元間の保守
+統合先は `master`。GitHub Releaseと版別ノートは同じタグで公開する。今回の変更は [v3.1.2](docs/releases/v3.1.2.md) を参照。Skill名・導入と配置の入口・Session GraphのMCP利用方針も維持対象である。MCPのschema・認可はruntimeが定める。
 
-共通方針の基準はCodexの配布元とし、OpenCodeとClaudeの配布元は各製品で独立して利用できるように保つ。共通する変更の目的・制約・完了条件を照合し、OpenCode起点の改善も共通側へ返す。起動・tool・model・権限・設定形式は各製品の実際の経路に合わせる。これは配布元の保守方針であり、他製品への実行時参照や依頼外の書込み権限ではない。
+### Codex／Claude／OpenCode間の変更反映
+
+共通ルール・自主管理Skill・設定例・通知方針はCodexを基本の正本とし、通常の保守では目的・制約・完了条件を揃えて同じ作業で3者に反映する。各配布元（`.codex`、`.claude`、`~/.config/opencode`）は相互importや共有リンクに依存せず独立して使える構成とする。Claude・OpenCode起点の共通改善はCodexにも戻す。
+
+model・tool・設定形式など製品固有の機構は各製品に合わせる。対象製品を限定した依頼を他の配布元への書込権限としない。認証、実config、Session URL・token、Memory・履歴・cache、外部managed Skillは同期しない。

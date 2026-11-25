@@ -117,7 +117,7 @@ class ExtractTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "metadataをdecorated testへ結合しdecoratorから末尾までのsource_textを投影する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "metadataを別testへ結合するかdecoratorやassertionをsource_textから欠落させる"
     # observable = "抽出recordのmetadata、source範囲、source_text"
     # observation_boundary = "component-behavior"
@@ -170,7 +170,7 @@ class ExtractTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "metadata欠落testは値を推測せずmetadata nullとTEST_VALUE_MISSINGを返す"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "コメントのないtestへ架空の価値情報を補完して成功扱いする"
     # observable = "抽出結果のmetadata nullとTEST_VALUE_MISSING diagnostic"
     # observation_boundary = "component-behavior"
@@ -192,7 +192,7 @@ class ExtractTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "空行で隔てたblockはtestへ結合せずMISSINGとUNBOUNDを返す"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "直接隣接しないmetadataをtestへ誤結合する"
     # observable = "抽出結果のexit status、metadata null、TEST_VALUE_MISSINGとTEST_VALUE_UNBOUND diagnostic"
     # observation_boundary = "component-behavior"
@@ -217,7 +217,7 @@ class ExtractTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "一つのtestへ隣接する複数metadata blockをDUPLICATEとして拒否する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "複数blockの一つを恣意的に採用して曖昧な価値情報を通す"
     # observable = "抽出結果のexit status、metadata null、TEST_VALUE_DUPLICATE diagnostic"
     # observation_boundary = "component-behavior"
@@ -242,7 +242,7 @@ class ExtractTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "TOML parse errorとschema errorはmetadata nullと対応diagnosticを返す"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "壊れたpayloadやunknown fieldを有効metadataとして投影する"
     # observable = "抽出recordのmetadataとparse/schema diagnostic"
     # observation_boundary = "component-behavior"
@@ -280,7 +280,7 @@ def test_malformed():
     # @test-value v2
     # kind = "regression"
     # claim = "oracleの通常tableとdotted keyをSCHEMA_ERRORとして拒否する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "公開形式外のoracle構文をinline tableとして受理する"
     # observable = "抽出結果のexit status、各recordのmetadata null、TEST_VALUE_SCHEMA_ERRORとoracle構文message"
     # observation_boundary = "component-behavior"
@@ -329,7 +329,7 @@ def test_malformed():
     # @test-value v2
     # kind = "regression"
     # claim = "multiline文字列内のdecoyを無視して実際の通常oracle tableを拒否する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "claim文字列内のoracle表記を構文根拠にして通常tableを通す"
     # observable = "抽出器のoracle syntax diagnostic"
     # observation_boundary = "component-behavior"
@@ -373,7 +373,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "Unicode escapeされたquoted oracle keyを復号してinline tableとして受理する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "TOML上同値なquoted keyを未知fieldとして誤拒否する"
     # observable = "抽出結果のexit status、空のdiagnostics、metadata.oracle.ref"
     # observation_boundary = "component-behavior"
@@ -399,7 +399,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "v2のfield型不一致とlifecycle条件不足をSCHEMA_ERRORにする"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "issue", ref = "#43" }
     # fault = "型不正または終了条件のない一時metadataを審査可能として通す"
     # observable = "抽出結果のTEST_VALUE_SCHEMA_ERRORとmetadata null"
     # observation_boundary = "component-behavior"
@@ -438,7 +438,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "review_when付きcharacterizationをdiagnosticなしで投影する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "issue", ref = "#43" }
     # fault = "見直し条件を持つ有効なcharacterizationを誤拒否する"
     # observable = "抽出結果のexit status、diagnostics、metadata.review_when"
     # observation_boundary = "component-behavior"
@@ -468,7 +468,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "lifecycle固有の必須条件を要求し、permanent以外の追加終了条件を拒否しない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "issue", ref = "#43" }
     # fault = "必須終了条件の欠落を受理するか、必須条件が揃った追加条件を拒否する"
     # observable = "lifecycle別の抽出exit status、diagnostics、metadata"
     # observation_boundary = "component-behavior"
@@ -540,7 +540,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "v2固有fieldのunknown値と型不一致を抽出境界で拒否する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "issue", ref = "#43" }
     # fault = "未知boundary、未知risk tag、文字列risk_tags、failure_modeをv2 metadataとして通す"
     # observable = "各入力に対するTEST_VALUE_SCHEMA_ERRORとmetadata null"
     # observation_boundary = "component-behavior"
@@ -652,7 +652,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "nested testをUNSUPPORTED、syntax errorをSOURCE_SYNTAX_ERRORとしてrecordなしで返す"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "未対応nested宣言または壊れたsourceを黙って成功扱いする"
     # observable = "抽出結果のexit status、空のtests、SOURCE_SYNTAX_ERRORとTEST_DECLARATION_UNSUPPORTED diagnostic"
     # observation_boundary = "component-behavior"
@@ -680,7 +680,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "invariant"
     # claim = "入力順とLF/CRLFが違っても出力JSONとsource_textを一致させる"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "同じsourceのJSONやsource_textが列挙順または改行形式で変動する"
     # observable = "入力順を入れ替えた出力JSONとLF/CRLF入力から抽出したsource_text"
     # observation_boundary = "component-behavior"
@@ -706,7 +706,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "文字列内のmarker風textをmetadata comment blockとして扱わない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "test本文中の文字列を追加metadataとして誤解析する"
     # observable = "抽出結果のexit status、空のdiagnostics、testsの件数"
     # observation_boundary = "component-behavior"
@@ -736,7 +736,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "public CLIはexit 0でparse可能なJSONと期待recordをstdoutへ返す"
-    # oracle = { type = "contract", ref = "skills/review-test-value/SKILL.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "library経路だけ成功しCLI consumerがJSONを取得できない"
     # observable = "CLI processのreturncode、stderr、stdoutからparseしたJSONのtest symbolとdiagnostics"
     # observation_boundary = "public-boundary"
@@ -772,7 +772,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "明示path modeはGit snapshot間の対応を推測せずtransitionsをnullとして返す"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "issue", ref = "natumekazuki/.codex#43" }
     # fault = "単一snapshotの全file抽出から架空のADDEDまたはSURVIVED transitionを生成する"
     # observable = "path mode抽出結果のtransitions field"
     # observation_boundary = "public-boundary"
@@ -794,7 +794,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "Git modeは変更testだけを選び未変更legacy testを移行対象にしない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "未変更testのmetadata欠落で差分審査が停止する"
     # observable = "Git抽出CLIのexit status、空のdiagnostics、testsのsymbol集合と変更後source_text"
     # observation_boundary = "public-boundary"
@@ -826,7 +826,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "Git modeは追加・生存・完全削除testをtyped transitionとして返し、現snapshotのrecord集合をtestsへ一度だけ投影する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "issue", ref = "natumekazuki/.codex#44" }
     # fault = "完全削除testを空selectionとして失うか、transitionのafterとtestsが異なるrecord集合になる"
     # observable = "Git抽出結果のtransitions、tests、削除前record"
     # observation_boundary = "public-boundary"
@@ -885,7 +885,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "add/deleteとして分かれたfile pair間では同じtest symbolでも別recordとして保持する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "issue", ref = "natumekazuki/.codex#44" }
     # fault = "削除recordと追加recordをsymbol名だけでSURVIVEDへ誤対応して元の削除義務を消す"
     # observable = "同名recordに対するDELETEDとADDEDの独立transition"
     # observation_boundary = "public-boundary"
@@ -1038,7 +1038,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "固定baseのmetadata未付与testを削除または移設してもbeforeの事実を保持したまま現行側の審査へ進める"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "issue", ref = "natumekazuki/.codex#80" }
     # fault = "削除前のTEST_VALUE_MISSINGで停止するか、D+Aの移設をsymbol名だけでSURVIVEDへ結び付けてbeforeを失う"
     # observable = "Git抽出結果のexit status、DELETED.beforeのmetadata、transition集合"
     # observation_boundary = "public-boundary"
@@ -1233,7 +1233,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "改行コードだけの変更はtest価値の再審査対象にしない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "LFからCRLFへの変換で未変更legacy testまで選択し審査を停止する"
     # observable = "Git抽出結果のtestsとdiagnostics"
     # observation_boundary = "public-boundary"
@@ -1274,7 +1274,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "test本文末尾への追記を既存testのSURVIVEDとして選択する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "末尾のzero-count insertionをADDEDとして扱い元testの変更審査を失う"
     # observable = "working、staged、headのSURVIVED transition"
     # observation_boundary = "public-boundary"
@@ -1320,7 +1320,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "改行コード変換と同時に意味変更したtestは審査対象に残す"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "line-ending差分の除外が同じfileのassertion変更まで隠す"
     # observable = "working、staged、headでのCLI exit status、空のdiagnostics、選択されたtest symbolと変更後source_text"
     # observation_boundary = "public-boundary"
@@ -1366,7 +1366,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "metadataだけの変更も対応するtest recordを選択する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "価値コメントの意味変更が審査対象から漏れる"
     # observable = "Git抽出CLIのexit status、testsの件数、抽出metadata.claimの変更後文字列"
     # observation_boundary = "public-boundary"
@@ -1391,7 +1391,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "working tree比較は未追跡test fileも審査対象に含める"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "新規未追跡testが審査を通らず追加される"
     # observable = "Git抽出CLIのexit status、testsのsymbol集合、TEST_VALUE_MISSING diagnostic"
     # observation_boundary = "public-boundary"
@@ -1417,7 +1417,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "staged modeはworking treeではなくindexのsourceを抽出する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "diff対象と異なるsnapshotの本文をAIへ渡す"
     # observable = "staged抽出CLIのexit statusとsource_text内のindex側assertionおよびworktree側assertionの不在"
     # observation_boundary = "public-boundary"
@@ -1473,7 +1473,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "内容を変えないrenameはtest価値の再審査対象にしない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "pure renameを新規testと誤認して不要な審査を要求する"
     # observable = "Git抽出結果のtests、transitions、diagnostics"
     # observation_boundary = "public-boundary"
@@ -1496,7 +1496,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "contract"
     # claim = "解決不能なGit revisionでは部分JSONを返さずinvocation errorにする"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "誤ったbaseで空の審査結果を成功扱いする"
     # observable = "Git抽出CLIのexit status、stdoutから得たresultの空辞書、stderrのgit command failed message"
     # observation_boundary = "public-boundary"
@@ -1515,7 +1515,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "security"
     # claim = "working treeのroot外symlinkを読まずSOURCE_OUTSIDE_ROOTにする"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "repository外sourceのtest本文をAI入力へ漏らす"
     # observable = "Git抽出CLIのexit status、空のtests、SOURCE_OUTSIDE_ROOT diagnostic、result JSON内の外部test symbolの不在"
     # observation_boundary = "public-boundary"
@@ -1553,7 +1553,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "部分削除はSURVIVEDとして選び、test全体の削除は隣接testへ誤対応せずDELETEDとして保持する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "issue", ref = "natumekazuki/.codex#44" }
     # fault = "部分削除を見落とすか、完全削除を隣接testへSURVIVEDとして結合して元recordを失う"
     # observable = "Git抽出結果のtestsとSURVIVED、DELETED transition"
     # observation_boundary = "public-boundary"
@@ -1648,7 +1648,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "置換hunkのold側がsurviving testへ属する場合もそのtestを選択する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "削除行の置換先がtest外にあると本文変更を空結果として成功扱いする"
     # observable = "working、staged、headでのCLI exit status、空のdiagnostics、testsのsymbol集合"
     # observation_boundary = "public-boundary"
@@ -1692,7 +1692,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "metadata結合を壊す変更もbase側recordから対応testへ投影する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "開始markerの破損でmetadata欠落diagnosticとtest recordが審査から消える"
     # observable = "Git選択されたrecordとTEST_VALUE_MISSING diagnostic"
     # observation_boundary = "component-behavior"
@@ -1734,7 +1734,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "metadataと宣言の間への純挿入もbase側recordから対応testへ投影する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "挿入hunkにold側rangeがなく結合を失ったtestとdiagnosticが審査から消える"
     # observable = "working、staged、headでのCLI exit status、testsのsymbol集合、TEST_VALUE_MISSING diagnostic"
     # observation_boundary = "public-boundary"
@@ -1779,7 +1779,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "先頭decoratorだけを削除したsurviving testをbase側rangeから選択する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "削除anchorへ投影した旧開始行が現開始行と一致せず変更testが審査から消える"
     # observable = "working、staged、headでのCLI exit status、空のdiagnostics、testsのsymbol集合"
     # observation_boundary = "public-boundary"
@@ -1823,7 +1823,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "nested Python testの本文変更をUNSUPPORTED diagnosticへ結合する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "未対応宣言の開始行以外の変更を空結果として成功扱いする"
     # observable = "working、staged、headでのCLI exit status、空のtests、TEST_DECLARATION_UNSUPPORTED diagnosticとdiagnosticのfield集合"
     # observation_boundary = "public-boundary"
@@ -1867,7 +1867,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "nested Python testの本文削除を削除anchorからUNSUPPORTED diagnosticへ結合する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "未対応宣言内の削除専用hunkを空結果として成功扱いする"
     # observable = "working、staged、headでのCLI exit status、空のtests、TEST_DECLARATION_UNSUPPORTED diagnostic"
     # observation_boundary = "public-boundary"
@@ -1912,7 +1912,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "未対応test宣言の全削除で直後の未変更testを選択しない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "全削除した未対応testのdiagnosticを失うか、削除anchorを隣接legacy testへ結合する"
     # observable = "Git抽出結果のTEST_DECLARATION_UNSUPPORTEDと空のtests"
     # observation_boundary = "public-boundary"
@@ -1962,7 +1962,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "unrelatedなunsupported宣言があってもtest全削除を隣接testへ投影しない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "別位置のunsupported diagnosticで未変更legacy testを移行対象にする"
     # observable = "working、staged、headでのCLI exit status、空のtestsとdiagnostics"
     # observation_boundary = "public-boundary"
@@ -2056,7 +2056,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "regression"
     # claim = "Git属性でbinary指定されたsourceもraw text差分からtestを選択する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "repositoryのdiff属性により変更testが空結果になる"
     # observable = "working、staged、headでのCLI exit status、空のdiagnostics、testsのsymbol集合"
     # observation_boundary = "public-boundary"
@@ -2093,7 +2093,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "security"
     # claim = "public CLIはroot外pathをSOURCE_OUTSIDE_ROOTとして内容を抽出しない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "repository外sourceを許可対象としてAI入力へ取り込む"
     # observable = "CLIのreturncode、空のtests、SOURCE_OUTSIDE_ROOT、stdout内のroot絶対path・外部test symbol・本文の不在"
     # observation_boundary = "public-boundary"
@@ -2134,7 +2134,7 @@ def test_oracle_table_with_decoy():
     # @test-value v2
     # kind = "security"
     # claim = "path modeでもroot外へ解決するsymlinkを拒否して外部test本文を返さない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "字句上root内のsymlinkからrepository外情報を漏らす"
     # observable = "抽出結果のexit status、空のtests、SOURCE_OUTSIDE_ROOT diagnostic"
     # observation_boundary = "component-behavior"

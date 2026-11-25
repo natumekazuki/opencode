@@ -1,0 +1,60 @@
+# ADR-0021: テスト価値審査の対象をGit差分から選択する
+
+- Status: accepted（一対多置換の停止判断は一部置換）
+- Date: 2026-08-29
+- Updated: 2026-10-23
+- Supersedes: none
+- Extends: ADR-0020
+
+## 現在の適用範囲
+
+Decisionの「同一file pairで候補が曖昧なら`RECORD_TRANSITION_UNRESOLVED`で停止する」という判断のうち、[Git選択契約の一対多置換条件](../../skills/review-test-value/references/git-selection-v1.md#selection)に該当する範囲は、現行運用の適用対象外とする。後継判断は同契約を正本とし、旧recordを`DELETED.before`、新recordを他の旧recordとの一意な対応もなければ`ADDED.after`として保持し、旧・新の全件を審査へ渡す。
+
+内容と位置の競合など、同条件を満たさない未解決の停止判断と、その他の判断は維持する。以下の本文は判断履歴として保持する。
+
+## Context
+
+- ADR-0020の明示path抽出は決定的だが、新規・変更testの価値審査を呼び出し側が省略できる。
+- test file単位でコメントを必須化すると、変更していない既存testまで一括移行の対象になる。
+- AIが変更rangeを手入力すると、選択漏れを機械的に区別できない。
+- 現段階ではrepository全体のCI gateを導入せず、Codexの標準作業経路を強制したい。
+
+## Decision
+
+- `review-test-value`の公開CLIへ、base revisionと比較対象から対象testを選ぶGit modeを追加する。
+- Git modeは対象言語を一つ指定し、その言語の変更fileをGit差分から自動発見する。呼び出し側は個別pathやline rangeを指定しない。
+- baseと比較対象は直接比較し、merge-base、upstream、task開始commitをCLIが推測しない。task開始時に固定したbaseを呼び出し側が渡す。
+- 比較対象はworking tree、index、明示commitを区別する。抽出sourceも比較対象と同じsnapshotから読む。
+- working tree比較はbase以降のcommit、staged、unstaged、non-ignored untracked fileを含む。filesystemから読むsourceがrepository root外へ解決される場合は、内容を読まず`SOURCE_OUTSIDE_ROOT`にする。
+- test declarationのsource range、直接隣接する`@test-value` block、またはそれらへ接するold-side / new-side差分が交差したsurviving recordだけを抽出する。base側recordのdeclaration startをnew側へ投影し、開始境界を削除した場合は削除anchorの直後へ対応付けるため、先頭decoratorやattributeだけを削除して開始行が変わる場合も対象にする。surviving testの本文行やmetadataだけを削除した場合と、metadataのmarkerや隣接関係を壊した場合もbase側recordから対象にする。
+- 静的に識別した未対応test declarationは内部rangeで差分と対応付け、本文変更を`TEST_DECLARATION_UNSUPPORTED`として返す。selection専用rangeは公開JSONへ追加しない。
+- 対応sourceのhunkはGit属性のbinary指定やtext conversionに左右されないraw text差分として取得する。抽出sourceと同じLF正規化の意味論へ揃えるため、行末のCR有無だけによる変更はhunkに含めず、同時に存在する内容変更は通常どおり対象にする。
+- 変更していない既存testとそのmetadata欠落diagnosticはGit modeの結果へ含めない。
+- syntax error、decode error、adapter failureなど、変更sourceの信頼できる抽出を妨げるfailureは選択範囲外として隠さない。
+- pure renameは対象にせず、renameと同時に内容が変わった場合は変更recordを対象にする。test declarationまたはfileの削除はbase snapshotのrecordを`DELETED.before`へ保持し、削除の妥当性を通常のtest価値reviewへ渡す。
+- 固定baseで削除されたtestにmetadataが無い場合も、`DELETED.before`の`metadata: null`と本文を歴史的証拠として保持し、base側の`TEST_VALUE_MISSING`だけではGit選択を停止しない。追加・surviving側の未付与／不正metadataは引き続き停止する。
+- Gitが移設＋変更を`D`＋`A`へ分けた場合は、pathやsymbol名だけで対応付けず、`DELETED`と`ADDED`を独立して返す。内容・位置で対応を一意に保証できるfile pairだけを`SURVIVED`へ対応付け、同一file pairで候補が曖昧なら`RECORD_TRANSITION_UNRESOLVED`で停止する。
+- 一つのresultは一つのsource adapterだけを表すADR-0020の契約と、現在のextractor output schemaを維持する。
+- CI gateはこの判断に含めない。運用実績から機械的なmerge gateが必要になった場合は別契約として判断する。
+
+## Alternatives
+
+- AIがpathやline rangeを指定する: 既存testの一括移行は避けられるが、対象漏れを呼び出し側が作れるため採用しない。
+- 変更file内の全testを審査する: 実装は単純だが、無関係な既存testのmetadata移行を強制するため採用しない。
+- 最初からCI gateを導入する: 強制力は高いが、repository運用とmerge policyまで同時に拡張するため現段階では採用しない。
+
+## Consequences
+
+- Positive: 新規・意味変更・削除・移設されたtestをCodexの裁量で選択対象から外せない。
+- Positive: 変更していない既存testへ一括でmetadataを導入せず段階移行できる。
+- Positive: working tree、index、commit snapshotのどれを審査したかを区別できる。
+- Negative: Git管理repositoryと明示base revisionが必要になる。
+- Negative: 複数言語の変更では言語ごとにCLIを実行する必要がある。
+- Negative: pure renameだけでは価値内容を再審査しない。
+
+## Executable Anchors
+
+- Git selection: `skills/review-test-value/scripts/git_diff_selection.py`
+- Extraction integration: `skills/review-test-value/scripts/extract_test_values.py`
+- Tests: `skills/review-test-value/scripts/test_extract_test_values.py`、`skills/review-test-value/scripts/test_extract_test_values_multilang.py`
+- Usage contract: `skills/review-test-value/references/git-selection-v1.md`
