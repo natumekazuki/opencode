@@ -102,7 +102,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "describe配下のtest.eachをgroup付きの一宣言として抽出する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "parameterized testを欠落または複数recordへ誤分割する"
     # observable = "TypeScript抽出結果のrecord数、symbol、source text"
     # observation_boundary = "component-behavior"
@@ -140,7 +140,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "Python・TypeScript・C#で未対応metadata markerを同じversion diagnosticにする"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "issue", ref = "#43" }
     # fault = "adapterごとに未対応versionをMISSINGまたは有効metadataとして扱う"
     # observable = "各言語のTEST_VALUE_VERSION_UNSUPPORTEDとmetadata format version"
     # observation_boundary = "component-behavior"
@@ -188,7 +188,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "Python・TypeScript・C#がv2の全lifecycleを同じ条件で受理する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "issue", ref = "#43" }
     # fault = "native adapterだけcharacterizationまたはephemeralの終了条件を失う"
     # observable = "各言語の抽出metadataにあるlifecycleと終了条件"
     # observation_boundary = "component-behavior"
@@ -259,7 +259,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "Python・TypeScript・C#がv2の未知field・未知enum・不正型を同じschema errorにする"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v2.md" }
+    # oracle = { type = "issue", ref = "#43" }
     # fault = "native adapter経路だけ不正metadataを審査可能なrecordとして投影する"
     # observable = "各言語のTEST_VALUE_SCHEMA_ERRORとmetadata null"
     # observation_boundary = "component-behavior"
@@ -315,7 +315,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "補間template literalの後にあるTypeScript testのmetadataを隣接宣言へbindingする"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "issue", ref = "review-test-value-template-comment-scanning" }
     # fault = "補間templateの後続metadata commentを読み飛ばし、隣接testへの結合を失う"
     # observable = "抽出exit、diagnostics、test数、symbolとmetadata.oracle.ref"
     # observation_boundary = "component-behavior"
@@ -342,7 +342,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "invariant"
     # claim = "symbolが衝突してもpathとdeclaration_start_lineのlocatorを一意にする"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/comment-format-v1.md#identity" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "衝突するqualified symbolをkeyとして別宣言のrecordを上書きする"
     # observable = "抽出recordのsymbol列とpath・declaration_start_lineの組の異なる件数"
     # observation_boundary = "component-behavior"
@@ -382,7 +382,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "動的titleのTypeScript testをUNSUPPORTEDとして値を推測しない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "動的titleのtestを通常recordとして抽出するか、未対応診断を返さない"
     # observable = "抽出exit、空のtestsとTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -410,7 +410,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "parenthesized・as assertion・non-null wrapper付き宣言を全て抽出する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "transparent wrapper内の対応test・describe callを宣言として認識しない"
     # observable = "抽出exit、diagnosticsと四宣言のqualified symbol列"
     # observation_boundary = "component-behavior"
@@ -444,7 +444,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "引数なしcallをUNSUPPORTEDにし同一fileの有効recordは保持する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "引数なしcallで抽出が停止するか、五件の未対応診断または同居する有効recordを失う"
     # observable = "抽出exit、有効testのsymbol列と五件のTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -478,7 +478,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "未対応concurrent modifierをUNSUPPORTEDとして返す"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "concurrent付きtestを見落とすか通常recordとして抽出する"
     # observable = "抽出exit、空のtestsとTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -503,7 +503,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "concurrent.eachの複合call chainをUNSUPPORTEDとして返す"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "未対応nested・tagged call chainを見落とすか通常recordとして抽出する"
     # observable = "抽出exit、空のtestsと八件のTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -535,7 +535,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "Playwright hook・config・runtime annotationを宣言と区別し実testだけ抽出する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "hook・config・runtime annotationを宣言扱いするか、同居する実testを欠落させる"
     # observable = "抽出exit、diagnosticsとplaywrightだけを含むsymbol列"
     # observation_boundary = "component-behavior"
@@ -579,7 +579,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "modifier付きitの動的titleをUNSUPPORTEDとして返す"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "it.skipの動的titleを通常recordとして抽出するか、未対応診断を返さない"
     # observable = "抽出exit、空のtestsとTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -605,7 +605,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "同一行の前置code付き宣言をUNSUPPORTED、metadataをUNBOUNDにする"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "同一行の前置code付きtestへmetadataを結合し、通常recordとして抽出する"
     # observable = "抽出exit、空のtestsとTEST_VALUE_UNBOUND・TEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -631,7 +631,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "動的describeをUNSUPPORTEDにし内側testをgroupなしrecordとして出さない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "動的describeを見落とすか、内側testをgroupなしrecordとして抽出する"
     # observable = "抽出exit、空のtestsとTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -659,7 +659,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "同一行の複数test宣言をUNSUPPORTEDにし一blockを再利用しない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "同一物理行の複数testへ一つのmetadataを結合し、通常recordを出力する"
     # observable = "抽出exit、空のtestsとTEST_VALUE_UNBOUND・一件のTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -722,7 +722,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "TSXとonly・skip・fail・todoの対応modifier宣言を抽出する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "TSX内のonly・skip・fail.only・todo付き対応宣言を見落とすか誤拒否する"
     # observable = "抽出exitと四宣言のsymbol列"
     # observation_boundary = "component-behavior"
@@ -754,7 +754,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "test.describe.onlyのstatic group名をqualified symbolへ保持する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "test.describe.onlyのstatic titleを子testのqualified symbolから落とす"
     # observable = "抽出exit、diagnosticsと子recordのsymbol"
     # observation_boundary = "component-behavior"
@@ -779,7 +779,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "public CLIはTypeScript入力をtypescript adapter/profileへdispatchする"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "TypeScript入力のCLIを別adapterへdispatchするか、public test recordを失う"
     # observable = "CLIのreturncode・stderr、stdout JSONのadapterとtest symbol"
     # observation_boundary = "public-boundary"
@@ -815,7 +815,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "xUnit TheoryとInlineDataを一つのC# source declarationとして抽出する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "Theoryを見落とすかInlineDataごとに分割し、attributeを含む宣言本文を失う"
     # observable = "抽出exit、adapter・coverage・diagnostics、record数・qualified symbol・source_text"
     # observation_boundary = "component-behavior"
@@ -856,7 +856,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "NUnitとMSTestの対応attribute付きmethodを各一recordとして抽出する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "namespace-qualifiedのNUnit TestCaseまたはMSTest DataTestMethodAttributeを見落とす"
     # observable = "抽出exitと二宣言のqualified symbol列"
     # observation_boundary = "component-behavior"
@@ -928,7 +928,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "invariant"
     # claim = "C# syntax diagnostic JSONをCurrentUICultureに依存させない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "同じRoslyn diagnosticのMessage投影をCurrentUICultureに依存させる"
     # observable = "抽出exit・空のtests・SOURCE_SYNTAX_ERRORと、en-US・ja-JPのmessage一致を確認するculture-checkプロセスのreturncode"
     # observation_boundary = "component-behavior"
@@ -973,7 +973,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "条件付きコンパイル領域のtestをUNSUPPORTEDとして明示する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "symbol依存conditional groupを通常抽出するか、group外の有効testまで除外する"
     # observable = "抽出exit、AlwaysTests.Alwaysだけを含むsymbol列と一件のTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -1020,7 +1020,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "compatibility"
     # claim = "project symbolを必要としない#if true内のC# testを通常宣言として抽出する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "#if trueをsymbol依存条件と誤分類し、対応testを除外する"
     # observable = "抽出exit、diagnosticsとStaticConditionalTests.StaticTrueのsymbol列"
     # observation_boundary = "component-behavior"
@@ -1053,7 +1053,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "symbol参照conditional groupのactive branchもsupported recordとして抽出しない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "symbol依存groupの既定active branchを対応testとして抽出する"
     # observable = "抽出exit、空のtestsと一件のTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -1085,7 +1085,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "testを含む一つの#if・#elif symbol groupを一件のUNSUPPORTED diagnosticへ集約する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "一つの#if・#elif symbol groupを見落とすか複数の未対応診断へ分割する"
     # observable = "抽出exit、空のtestsと一件のTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -1339,7 +1339,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "同一行のclass code後にあるC# testをUNSUPPORTED、metadataをUNBOUNDにする"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "同一行のclass code後のmethodへmetadataを結合し、通常recordとして抽出する"
     # observable = "抽出exit、空のtestsとTEST_VALUE_UNBOUND・TEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "component-behavior"
@@ -1365,7 +1365,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "compatibility"
     # claim = "Python・TypeScript・C#全adapterでUTF-8 BOMをencoding markerとして除去する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "UTF-8 BOMをencoding markerとして除去せず、解析・metadata結合または宣言本文の投影を壊す"
     # observable = "三言語の抽出exit・diagnosticsとsource_text中のBOMの不在"
     # observation_boundary = "component-behavior"
@@ -1404,7 +1404,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "Git modeはTypeScriptとC#でも変更testだけを言語別に選択する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "TypeScript・C#の本文変更testを選ばないか、未変更でmetadataのないlegacy testも選ぶ"
     # observable = "言語別Git抽出CLIのexit・diagnosticsとchanged・ValueTests.Changedだけを含むsymbol列"
     # observation_boundary = "public-boundary"
@@ -1453,7 +1453,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "同一置換hunkでmetadata追加とasync化を行った既存TypeScript testをSURVIVEDとして対応付ける"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "issue", ref = "natumekazuki/.codex#78" }
     # fault = "新側の宣言行が旧開始行の一点投影からずれたtestをADDED扱いまたは対応不能にする"
     # observable = "Git抽出結果のTypeScript test record、SURVIVED transition、diagnostics"
     # observation_boundary = "public-boundary"
@@ -2031,7 +2031,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "既存TypeScript testの末尾変更と直後の追加testを同一置換hunkで誤対応付けしない"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "issue", ref = "natumekazuki/.codex#78" }
     # fault = "旧recordのspanに触れただけのhunkから隣接する追加testを候補に含め、既存testをRECORD_TRANSITION_UNRESOLVEDにする"
     # observable = "Git抽出結果の既存testと追加testのtransition、diagnostics"
     # observation_boundary = "public-boundary"
@@ -2087,7 +2087,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "削除testのmetadataが残っても、その宣言を後続の部分変更testへ誤対応せずDELETEDとSURVIVEDへ分ける"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "issue", ref = "natumekazuki/.codex#90" }
     # fault = "削除宣言の投影位置が後続testに一致して誤ったSURVIVEDを作り、本来の存続testを対応不能にする"
     # observable = "Git抽出結果の旧新symbolを持つtransitionとdiagnostics"
     # observation_boundary = "public-boundary"
@@ -2123,7 +2123,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "削除testの終端だけが隣のtestとGit共通行になっても旧recordをDELETEDとして保持する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "issue", ref = "natumekazuki/.codex#90" }
     # fault = "共通の閉じ行を存続証拠とみなし部分変更recordの対応不能診断で停止する"
     # observable = "DELETED.beforeのsourceとmetadata、Git抽出exit、diagnostics"
     # observation_boundary = "public-boundary"
@@ -2260,7 +2260,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "削除testのmetadata先頭だけが後続testと共通でも旧recordをDELETEDとして保持する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "issue", ref = "natumekazuki/.codex#90" }
     # fault = "共通metadata行によって削除recordを部分変更扱いし、遷移不明として停止する"
     # observable = "DELETED.beforeのmetadataとsource、後続SURVIVED、diagnostics"
     # observation_boundary = "public-boundary"
@@ -2303,7 +2303,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "先頭C# attributeだけを削除したsurviving testをbase側rangeから選択する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "先頭C# attribute削除で旧開始行と現宣言の対応を失い、存続testを選ばない"
     # observable = "working・staged・headのGit抽出CLIのexit・diagnosticsとAttributeTests.Survivesのsymbol列"
     # observation_boundary = "public-boundary"
@@ -2491,7 +2491,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "TypeScript未対応modifier宣言の本文変更をUNSUPPORTED diagnosticへ結合する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "未対応TypeScript callの開始行以外の本文変更を選ばず、空の正常結果を返す"
     # observable = "working・staged・headのGit抽出CLIのexit、空のtestsとTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "public-boundary"
@@ -2532,7 +2532,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "C# test attribute付きlocal functionの本文変更をUNSUPPORTED diagnosticへ結合する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "test attribute付きlocal functionの開始行以外の本文変更を選ばず、空の正常結果を返す"
     # observable = "working・staged・headのGit抽出CLIのexit、空のtestsとTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "public-boundary"
@@ -2582,7 +2582,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "regression"
     # claim = "symbol依存C# conditional group内の本文変更と宣言の削除をUNSUPPORTED diagnosticへ結合する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/git-selection-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0021" }
     # fault = "symbol依存conditional groupの本文変更または削除側の未対応宣言を選ばず、空の正常結果を返す"
     # observable = "本文変更はworking・staged・head、削除はworkingでのCLI exit、空testsとTEST_DECLARATION_UNSUPPORTED"
     # observation_boundary = "public-boundary"
@@ -2715,7 +2715,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "一回のpath modeへ複数言語を渡すとexit 2かつJSONなしで拒否する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/SKILL.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "複数言語のpath入力を受理し、異なるadapterの結果を同じJSONへ出力する"
     # observable = "CLIのreturncode、空のstdoutとstderrのone language per invocation"
     # observation_boundary = "public-boundary"
@@ -2748,7 +2748,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "未対応extensionはexit 2かつ部分JSONなしで拒否する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/SKILL.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "対応外の.js入力を受理し、正常または部分JSONとして返す"
     # observable = "CLIのreturncode、空のstdoutとstderrのunsupported source extension: .js"
     # observation_boundary = "public-boundary"
@@ -2779,7 +2779,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "contract"
     # claim = "root外path diagnosticでも要求言語のadapterとcoverageを保持する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "root外pathのerror projectionで要求言語とは別のadapter・coverageを返す"
     # observable = "抽出exit、adapter・coverage、空のtestsとSOURCE_OUTSIDE_ROOT"
     # observation_boundary = "component-behavior"
@@ -2820,7 +2820,7 @@ class ExtractMultilanguageTestValuesTests(unittest.TestCase):
     # @test-value v2
     # kind = "invariant"
     # claim = "TypeScriptとC#で同じmetadataを同じ構造化値へ投影する"
-    # oracle = { type = "contract", ref = "skills/review-test-value/references/source-adapters-v1.md" }
+    # oracle = { type = "adr", ref = "ADR-0020" }
     # fault = "adapterごとにmetadata projectionが分岐する"
     # observable = "TypeScriptとC#の抽出recordのmetadata"
     # observation_boundary = "component-behavior"

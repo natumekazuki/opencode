@@ -1,6 +1,6 @@
 # WithMate Session間の協同
 
-全体統括・個別統括が担当を選ぶ時（ユーザーからの直接入力も含む）と、通常Session間で依頼・相談・報告を扱う時に使う。誰が判断し、誰が成果を引き受けるかは本書、操作の引数・認可・状態値は現在のSession MCP契約で確認する。通常子はOpenCodeの[native呼び出し禁止](../architecture/subagent-workspace.md#nativeサブエージェント)とは別の経路である。
+全体統括・個別統括が担当を選ぶ時（ユーザーからの直接入力も含む）と、通常Session間で依頼・相談・報告を扱う時に使う。誰が判断し、誰が成果を引き受けるかは本書、操作の引数・認可・状態値は現在のSession MCP契約で確認する。OpenCodeの[native子の呼出しは禁止](../architecture/subagent-workspace.md#nativeサブエージェント)で、通常子とは別の経路である。
 
 ## 自分と今回の送信元
 
@@ -42,7 +42,7 @@ Reply Toは**どの発言への返信か**を指す。実送信元、次の宛�
 | 応答喪失など受付結果が不明 | 再送せず、元の `requestId` と正確な宛先で `session.get_receipt` を照会する |
 | 受付済み | 同じ依頼を重ねない。受入は作業結果で判断する |
 
-OpenCode子の実行中Turnには `session.steer` を使えない。対応する宛先へのSteerは、MCPが許す直属親から通常子への同一Turnの訂正・補足に限る。宛先の `session.get` が示すWithMateの `currentTurn.turnId` へ固定し、ProviderのTurn IDを使わない。設定・権限は変わらない。結果不明ならそのTurnの保存入力を確認し、別Turnや通常送信へ流さない。
+OpenCode子の実行中Turnには `session.steer` を使えない。実行中の同じTurnの訂正・補足に限り、直属親から通常のCodex子へ `session.steer` を使う。宛先の `session.get` が示すWithMateの `currentTurn.turnId` へ固定し、ProviderのTurn IDを使わない。設定・権限は変わらない。結果不明ならそのTurnの保存入力を確認し、別Turnや通常送信へ流さない。
 
 ## Coordinationによる相談と再開
 

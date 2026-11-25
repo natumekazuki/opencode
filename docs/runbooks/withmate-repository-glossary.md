@@ -1,17 +1,29 @@
-# WithMate Repository Glossary 接続
+# WithMate Repository Glossaryの接続と診断
 
-repository用語の意味確認・登録は[WithMate利用guide](../guides/withmate.md)とruntime-managed `withmate-glossary` Skillを参照する。本書は接続・配置の診断用であり、tool契約を複製しない。
+WithMateで起動したOpenCode Sessionのmanaged HTTP接続を扱う。用語をいつ登録してよいかは[WithMate利用guide](../guides/withmate.md)、操作方法は現在のruntime-managed `withmate-glossary` SkillとMCP契約が正本である。この配布元でSkill・store・権限表を複製しない。
 
-## 接続とSkill
+## 読み取りだけで接続を確かめる
 
-OpenCode対応WithMateは `withmate-glossary` をmanaged HTTP MCPとしてturnごとに供給する。endpointは `/mcp/glossary`。URL・短命tokenはhostが渡し、native configへ登録しない。接続は当該Sessionのbinding境界に従い、別Sessionの値や推測したURL・tokenで補わない。
+WithMateは `withmate-glossary-http`（`/mcp/glossary`）をSessionへ供給する。通常の `opencode.jsonc` への手動登録は不要。URL・短命tokenを設定・ログへ残さない。永続設定の `opencode mcp list` だけではSessionの一時接続は確認できない。
+
+起動したSessionでmanaged SkillとMCP toolの公開を確認し、`glossary.list_targets` で許可されたprimary checkoutを読む。Session ID・任意のpath・Additional Directories・別worktreeを対象にすり替えない。`withmate-glossary-v1` のrepository側の正本は `.withmate/glossary.yaml`（schema v1）。ファイルがなくても読取確認で作成しない。schemaやauthorityの差異が問題なら、配置されたSkillの `.withmate-managed-skill.json` の `bundleVersion`、本文、該当releaseの契約を照合する。
 
 WithMateのSkill同期先を `~/.config/opencode/skills` に合わせる。任意の別folderへ同期しただけではOpenCodeのnative discovery対象にはならない。配布された `skills/withmate-glossary/` はWithMate管理とし、このrepositoryでは追跡しない。managed markerがない同名folderを無断で上書き・forkしない。配置と更新はWithMate側の配布契約に従う。
 
-## 操作境界
+## 障害を切り分ける
 
-現在の `list_targets` とSettingsが許可するrepositoryだけを操作する。Additional Directoriesへ追加されたpathをGlossaryのwrite targetへ自動拡張しない。`.withmate/glossary.yaml` のschema・revision・更新手順は現在のmanaged Skillとtool schemaで確認する。
+- toolが見えない、またはtransportに接続できない：起動元WithMateと対象Sessionへの供給を確認する。利用不能な場合に限り、managed Skillが許すCLI fallbackを検討する。Sessionのbindingとprimary checkoutを確認できないままwriteしない。
+- structuredなauthority・Settings・validationエラー：接続は別経路に変えず、対象・入力を確認する。無効なproactive createや上限超過をexplicit createへ読み替えない。
+- revision競合：現在値を読み直して変更目的を再評価する。同じ更新のrevisionだけ差し替えない。結果不明（`effect: unknown`）ならread-backし、新たなwriteを選ぶ前にユーザーへ確認する。
 
-結果不明時はread-backで現状を確認し、revision競合を古い入力で再実行しない。検証失敗・権限拒否・target不一致をCLI fallbackで迂回しない。read/search/validate/create/create-batch/updateの継続許可とdeleteの個別承認はguideに従う。
+## 手動STDIOによる開発・診断
 
-接続確認は必要なread-only操作までとし、無用なentryを作らない。未接続・未配置・未確認を区別して報告する。手動STDIO診断のcommandは `withmate-glossary mcp-server` だが、現runtimeの許可とbindingが必要であり標準の自動代替にはしない。
+手動clientで `withmate-glossary mcp-server` を試す場合は、当該Sessionが供給した次の**変数名**を手動clientからSTDIO子processの環境へ転送する。実値を固定・複製しない。
+
+- `WITHMATE_AGENT_RUNTIME_BINDING_REFERENCE`
+- `WITHMATE_AGENT_RUNTIME_BINDING_REQUIRED`
+- `WITHMATE_AGENT_RUNTIME_TURN_CAPABILITY`
+- `WITHMATE_AGENT_RUNTIME_APPLICATION_INSTANCE_ID`
+- `WITHMATE_AGENT_RUNTIME_GENERATION_ID`
+
+`GLOSSARY_SESSION_BINDING_REQUIRED` では当該Sessionのbindingと、この経路を使う時だけ5変数の転送を確認する。別Sessionの値で補わない。managed HTTPと重複して登録せず、接続経路の変更で操作対象・承認範囲を広げない。
