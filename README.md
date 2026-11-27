@@ -10,7 +10,7 @@
 | 専門手順・実行資産 | [配布するSkill](skills/)、[native role](agents/) |
 | 親・子の設定 | [共有config例](opencode.example.jsonc) |
 | 導入・診断、記入例 | [用途別runbook](docs/runbooks/)、[ADR・review記録の記入例](templates/)（任意） |
-| 過去の判断と公開版 | [ADR](docs/adr/)、[版別リリースノート](docs/releases/README.md) |
+| 過去の判断と公開版 | [ADR](docs/adr/)、[版別リリースノート](docs/releases/README.md)（変更に伴う影響） |
 
 ## このrepositoryの管理先とリリース境界
 
@@ -19,10 +19,10 @@
 ### 本repositoryの開発・リリース境界
 
 - `vMAJOR.MINOR.PATCH` タグが指すcommitを配布版とする。タグのないcommitやbranch上の途中状態は互換保証の対象としない。
-- 維持するのは各タグのリリースノートで明示した利用者向け契約であり、実装全体ではない。[初回の維持対象 v1.0.0](docs/releases/v1.0.0.md) から `review-test-value` のCLI、構造化result、metadata v2、対応adapter、Git差分選択を含む。詳細は[契約別の参照文書](skills/review-test-value/references/)で確認する。
-- 破壊的な契約変更はmajor、互換な変更はminorまたはpatchを上げて新しいタグへ記録する。リリースごとに [一覧](docs/releases/README.md) と `docs/releases/vMAJOR.MINOR.PATCH.md` を更新し、変更・互換性・検証結果を残す。
+- 維持するのは各タグのリリースノートで明示した利用者向け契約であり、実装全体ではない。
+- 破壊的な契約変更はmajor、互換な変更はminorまたはpatchを上げて新しいタグへ記録する。リリースごとに [一覧](docs/releases/README.md) と `docs/releases/vMAJOR.MINOR.PATCH.md` を更新し、変更内容とその互換性・移行・利用・安全上の影響を記録する。
 
-統合先は `master`。GitHub Releaseと版別ノートは同じタグで公開する。今回の変更は [v3.1.2](docs/releases/v3.1.2.md) を参照。Skill名・導入と配置の入口・Session GraphのMCP利用方針も維持対象である。MCPのschema・認可はruntimeが定める。
+統合先は `master`。GitHub Releaseと版別ノートは同じタグで公開する。公開版の変更は[版別ノート](docs/releases/README.md)を参照する。Skill名・導入と配置の入口・Session GraphのMCP利用方針も維持対象である。MCPのschema・認可はruntimeが定める。
 
 ### Codex／Claude／OpenCode間の変更反映
 
@@ -56,11 +56,17 @@ model・tool・設定形式など製品固有の機構は各製品に合わせ�
 
 ## Skillの配布
 
-このrepositoryで保守するのは、変更testの [review-test-value](skills/review-test-value/)、UIの [design-ui-information](skills/design-ui-information/)、Crewの共有記録を扱う [session-graph](skills/session-graph/)、採用済みrepositoryを扱う [relaygraph](skills/relaygraph/)、明示的な文章推敲用の [japanese-tech-writing-review](skills/japanese-tech-writing-review/) と [natural-japanese](skills/natural-japanese/) である。導入時はSkill本文とmetadataを揃える。
+このrepositoryで保守するのは、UIの [design-ui-information](skills/design-ui-information/)、Crewの共有記録を扱う [session-graph](skills/session-graph/)、採用済みrepositoryを扱う [relaygraph](skills/relaygraph/)、明示的な文章推敲用の [japanese-tech-writing-review](skills/japanese-tech-writing-review/) と [natural-japanese](skills/natural-japanese/) である。導入時はSkill本文とmetadataを揃える。
 
 `natural-japanese` の[同期元](https://github.com/coji/natural-japanese)・commit・licenseは [NOTICE](skills/natural-japanese/NOTICE) と [LICENSE](skills/natural-japanese/LICENSE) を参照。
 
 - [japanese-tech-writing-review](skills/japanese-tech-writing-review/SKILL.md) と [natural-japanese](skills/natural-japanese/SKILL.md) は明示起動用。`metadata.opencode/autoinvoke: false` を保つ。
+
+## このrepositoryのGit pre-commit
+
+この配布元のcheckoutで、Python 3.12を使う。有効にする前に `git config --show-origin --get core.hooksPath` で既存の設定を確認し、別のhookがある場合は上書きせず併用方法を決める。このrepositoryの既存設定と競合しなければ `git config --local core.hooksPath .githooks` で有効化できる。同じGit repositoryのworktreeにも影響する。設定を変えずに一度だけ使う場合は `git -c core.hooksPath=.githooks commit`、事前に同じ検査を手動で行う場合は `python -B -X utf8 scripts/check-repo.py --staged` を使う。
+
+staged差分の空白・競合マーカーと、このrepositoryの検査スクリプトで追加・変更したPython宣言のdocstringを検査する。外部由来の `natural-japanese` はdocstring検査に含めず、関連する変更ではPythonの構文と同梱fixtureによる実行例を確認する。設定例を変更した場合は、そのJSON構文を確認する。本文コメントの意味はreviewで確認する。CIは変更差分を検査し、Windows・Ubuntuで維持対象の検査を実行する。Git hookはOpenCodeの実行時設定とは別で、チェックアウトしただけでは有効にならない。
 
 ## 配布時の確認
 

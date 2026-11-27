@@ -16,3 +16,8 @@ skills/withmate-glossary/
 
 # 利用者が保持する非配布の端末固有資料
 /withmate.local.md
+
+# OpenCodeの端末固有の認証・設定バックアップ・ローカルplugin
+/secrets/
+/opencode.jsonc.before-*
+/plugins/withmate-local-no-retry/

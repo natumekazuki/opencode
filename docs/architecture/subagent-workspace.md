@@ -30,4 +30,4 @@ Git管理下の通常子にはreviewでも専用Worktreeを用い、並行作業
 
 OpenCodeのnative `subagent` は呼び出さない。配布用の `opencode.example.jsonc` では `tool.use` policyが `subagent:*` をdenyする。agent定義の発見と呼出しの許可は別で、設定が重なる場合は実効policyを確かめる。WithMateの通常子はこのpolicyの対象ではない。
 
-独立審査が必要なら、親が許可された独立担当とread-only条件を確保する。Worker自身がその担当を起動できなければ直属の親へ依頼する。利用できない場合は必須審査が残っていると伝え、自己評価やpolicy変更で代えない。変更testの抽出・審査はruntimeの `review-test-value` Skillに従う。
+独立審査が必要なら、親が許可された独立担当とread-only条件を確保する。Worker自身がその担当を起動できなければ直属の親へ依頼する。利用できない場合は必須審査が残っていると伝え、自己評価やpolicy変更で代えない。
