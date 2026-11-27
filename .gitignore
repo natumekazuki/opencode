@@ -1,18 +1,69 @@
+# この設定ホームは配布対象を明示する。未登録のルートパスは無視する。
+/*
+
+# 配布元の入口と、実設定ではない公開例
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/AGENTS.md
+!/.env.example
+!/opencode.example.jsonc
+
+# 配布専用の文書・テンプレート・開発メタデータ
+!/docs/
+!/templates/
+!/.github/
+!/.githooks/
+
+# 利用者の設定と混在し得る領域は、配布するファイル名だけ許可する
+!/agents/
+/agents/*
+!/agents/judgment.md
+!/agents/light.md
+!/agents/read-only.md
+!/scripts/
+/scripts/*
+!/scripts/check-repo.py
+
+# Skillは配布パッケージ単位で許可する。未登録のSkillやpluginは公開しない
+!/skills/
+/skills/*
+!/skills/design-ui-information/
+!/skills/japanese-tech-writing-review/
+!/skills/natural-japanese/
+!/skills/relaygraph/
+!/skills/session-graph/
+
+# 許可領域内でも実設定・認証・ローカル上書き・生成物は無視する
+.DS_Store
+.env
+.env.*
+.credentials.json
+auth.json
+auth.json.lock
+auth.lock
+secrets/
+*.pem
+*.key
+*.local.*
+*.bak
+*.bak.*
+*.backup
+*.before-*
+*.tmp
+*.tmp-*
+*~
+*.log
+__pycache__/
+*.py[cod]
+node_modules/
+bin/
+obj/
 service.json
 opencode.json
 opencode.jsonc
-auth.json
-.env
-.env.*
-!.env.example
-*.log
 *.db
 *.db-shm
 *.db-wal
-node_modules/
-__pycache__/
-*.py[cod]
-skills/withmate-glossary/
-
-# 利用者が保持する非配布の端末固有資料
-/withmate.local.md
+/plugins/withmate-local-no-retry/
+!/.env.example

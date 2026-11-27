@@ -1,5 +1,7 @@
 # ADR-0020: テスト価値を隣接コメントから決定論的に抽出する
 
+> 専用metadata書式、schema検証、CLI・JSON抽出を採用した判断は現行配布の適用対象外。旧実装と参照は [v3.1.2時点のSkill](https://github.com/natumekazuki/opencode/tree/23dc05550040e6b59815932a2047e5b2cacff6aa/skills/review-test-value) に残る。現行は[コードコメント規約](../guides/code-comments.md#テストのドキュメントコメント)と[通常のreviewで確認する観点](../guides/test-changes.md#通常のreviewで確認する)を参照する。以下は判断履歴。
+
 - Status: accepted
 - Date: 2026-08-27
 - Supersedes: none
