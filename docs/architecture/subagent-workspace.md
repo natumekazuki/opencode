@@ -16,7 +16,7 @@ Git管理下の通常子にはreviewでも専用Worktreeを用い、並行作業
 
 1. WithMateでは対象repository・branchを `session.resolve_worktree` で解決する。利用可能な既存登録を優先し、返された配置先を使う。未設定なら配置に必要な不足だけ確認する。今回限りの指定は新規候補にだけ適用し、保存方針・既存登録を変更しない。SessionFolder・Crew Folderからpathを組み立てない。
 2. 配置候補は実体ではない。直接親が分岐元のbranch・commit、実体とbranch、他Sessionの占有、未コミット変更を確認して必要なGit操作を行う。同じbranchをforceで複数checkoutしない。既存領域の移設・削除・上書きは準備の範囲外。追加writeが要るなら専用の狭い範囲で通常の承認を求め、拒否を権限拡大で迂回しない。
-3. 子へ渡すのは利用可能と確かめたWorkspace。WithMateはGitの作成・統合を代行しない。実体・branch・占有が変わった事情がなければ確認結果を再利用できる。
+3. 子へ渡すのは利用可能と確かめたWorkspace。Worktreeの準備や子の作成で変更が自動統合されることはない。作業branchのmergeは[merge先別のPR経路と承認条件](../guides/development.md#withmateでのmerge)に従う。実体・branch・占有が変わった事情がなければ確認結果を再利用できる。
 
 ## 非Gitの作業領域
 

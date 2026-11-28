@@ -22,7 +22,7 @@
 - 維持するのは各タグのリリースノートで明示した利用者向け契約であり、実装全体ではない。
 - 破壊的な契約変更はmajor、互換な変更はminorまたはpatchを上げて新しいタグへ記録する。リリースごとに [一覧](docs/releases/README.md) と `docs/releases/vMAJOR.MINOR.PATCH.md` を更新し、変更内容とその互換性・移行・利用・安全上の影響を記録する。
 
-統合先は `master`。GitHub Releaseと版別ノートは同じタグで公開する。公開版の変更は[版別ノート](docs/releases/README.md)を参照する。Skill名・導入と配置の入口・Session GraphのMCP利用方針も維持対象である。MCPのschema・認可はruntimeが定める。
+統合先は `master`。WithMateで作業を統合する場合は[merge先別のPR経路と承認条件](docs/guides/development.md#withmateでのmerge)に従う。GitHub Releaseと版別ノートは同じタグで公開する。公開版の変更は[版別ノート](docs/releases/README.md)を参照する。配布するSkillの名称・導入と配置の入口は維持対象である。MCPのschema・認可はruntimeが定める。
 
 ### この設定ホームでGit管理するもの
 
@@ -42,11 +42,11 @@ model・tool・設定形式など製品固有の機構は各製品に合わせ�
 
 - `AGENTS.md`、`docs/guides/` 全体、`docs/architecture/subagent-workspace.md`、[Glossaryの接続・障害調査runbook](docs/runbooks/withmate-repository-glossary.md) を揃える。別repositoryのrootと下位ディレクトリから、実際に読んだ共通入口・詳細と、そのrepository固有の管理先・互換性定義を確認する。参照が欠けたら配置を修復し、cwdや別の `XDG_CONFIG_HOME` の同名文書で埋めない。
 
-- WithMateのGlossary／Session Graph／SessionのHTTP接続とmanaged `withmate-glossary` SkillはWithMateが供給する。通常の導入で手動登録・forkや短命tokenの永続化はしない。Glossaryの手動STDIOはrunbookの開発・診断用途に限る。通常子の選定・配送は[協同guide](docs/guides/withmate-collaboration.md)、Worktreeの配置先決定と実体の確認は[作業領域guide](docs/architecture/subagent-workspace.md#git-worktreeの配置)に従う。端末固有の方針ファイルは配布・自動移行しない。
+- WithMateのGlossary／SessionのHTTP接続とmanaged `withmate-glossary` SkillはWithMateが供給する。通常の導入で手動登録・forkや短命tokenの永続化はしない。Glossaryの手動STDIOはrunbookの開発・診断用途に限る。通常子の選定・配送は[協同guide](docs/guides/withmate-collaboration.md)、Worktreeの配置先決定と実体の確認は[作業領域guide](docs/architecture/subagent-workspace.md#git-worktreeの配置)に従う。端末固有の方針ファイルは配布・自動移行しない。
 
 ### 配置と導入
 
-配置先はユーザーhomeの `~/.config/opencode/`。ここを直接checkoutした端末では、既存差分とbranchを確認して `master` をfast-forwardすると、追跡中の規約とSkillが一緒に更新される。手動配置では次の配布物を**同じrevisionのGit管理ファイルから**選び、相対配置を保つ。端末の設定directoryを丸ごとコピーしない。
+配置先はユーザーhomeの `~/.config/opencode/`。ここを直接checkoutした端末では、既存差分とbranchを確認し、公開版を取り込んだリモートの `master` にローカルの `master` をfast-forwardして追跡中の規約とSkillを更新できる。これは公開済みの内容の同期であり、作業branchを `master` に統合する手順ではない。手動配置では配布物を**同じrevisionのGit管理ファイルから**選び、相対配置を保つ。端末の設定directoryを丸ごとコピーしない。
 
 既存の `opencode.json`／`opencode.jsonc` があれば、必要な項目だけを確認して取り込む。今回の規約更新に設定の置換は要らない。新規導入で両方とも存在しない時だけ、設定例を `opencode.jsonc` としてコピーできる。実設定、認証、プラグイン、履歴・cache、WithMateが供給するSkill・接続値・端末固有資料はコピー対象外である。
 
@@ -62,7 +62,7 @@ model・tool・設定形式など製品固有の機構は各製品に合わせ�
 
 ## Skillの配布
 
-このrepositoryで保守するのは、UIの [design-ui-information](skills/design-ui-information/)、Crewの共有記録を扱う [session-graph](skills/session-graph/)、採用済みrepositoryを扱う [relaygraph](skills/relaygraph/)、明示的な文章推敲用の [japanese-tech-writing-review](skills/japanese-tech-writing-review/) と [natural-japanese](skills/natural-japanese/) である。導入時はSkill本文とmetadataを揃える。
+このrepositoryで保守するのは、UIの [design-ui-information](skills/design-ui-information/)、採用済みrepositoryを扱う [relaygraph](skills/relaygraph/)、明示的な文章推敲用の [japanese-tech-writing-review](skills/japanese-tech-writing-review/) と [natural-japanese](skills/natural-japanese/) である。導入時はSkill本文とmetadataを揃える。
 
 `natural-japanese` の[同期元](https://github.com/coji/natural-japanese)・commit・licenseは [NOTICE](skills/natural-japanese/NOTICE) と [LICENSE](skills/natural-japanese/LICENSE) を参照。
 
