@@ -32,7 +32,6 @@
 !/skills/japanese-tech-writing-review/
 !/skills/natural-japanese/
 !/skills/relaygraph/
-!/skills/session-graph/
 
 # 許可領域内でも実設定・認証・ローカル上書き・生成物は無視する
 .DS_Store
